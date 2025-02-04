@@ -1,0 +1,2 @@
+spring.application.name=frontendorchestration
+server.port=8989

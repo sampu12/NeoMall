@@ -1,0 +1,34 @@
+package com.programming.frontendorchestration.controller;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.User;
+
+@RestController
+@RequestMapping("/auth")
+public class BFFController {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private final String AUTH_SERVICE_URL = "http://localhost:8081/api/auth";
+    
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User user) {
+        String url = AUTH_SERVICE_URL + "/login";
+        return restTemplate.postForEntity(url, user, String.class);
+    }
+
+
+
+
+}
+

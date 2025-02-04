@@ -1,0 +1,5 @@
+package com.programming.adminservice.model;
+
+public class Admin {
+
+}

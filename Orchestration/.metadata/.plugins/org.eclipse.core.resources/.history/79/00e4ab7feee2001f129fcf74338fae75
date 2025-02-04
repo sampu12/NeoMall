@@ -1,0 +1,5 @@
+package com.programming.frontendorchestration.config;
+
+public class WebConfig {
+
+}

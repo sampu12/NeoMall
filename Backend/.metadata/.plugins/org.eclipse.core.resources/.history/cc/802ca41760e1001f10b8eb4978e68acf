@@ -1,0 +1,21 @@
+package com.programming.shippingservice.model;
+
+import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import lombok.Data;
+
+@Entity
+@Data
+public class ShippingInfo {
+    @Id
+    private String trackingNumber;
+    
+    private String address;
+    
+    private String shippingType;
+    
+    private Double weight;
+
+
+}

@@ -1,0 +1,5 @@
+package com.programming.adminservice.repository;
+
+public interface AdminRepository {
+
+}

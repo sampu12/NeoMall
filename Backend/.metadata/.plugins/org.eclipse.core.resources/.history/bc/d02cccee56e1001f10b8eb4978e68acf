@@ -1,0 +1,34 @@
+package com.programming.shippingservice.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.programming.shippingservice.model.ShippingInfo;
+import com.programming.shippingservice.repository.ShippingRepository;
+
+public class ShippingServiceImpl implements ShippingService{
+	@Autowired
+    private ShippingRepository shippingRepository;
+
+    // Simulate the third-party shipping provider integration
+    public ShippingInfo createShippingOrder(ShippingInfo shippingInfo) {
+        // Generate a fake tracking number for now
+        shippingInfo.setTrackingNumber("TRACK-" + System.currentTimeMillis());
+        // Save the shipping order into the database
+        return shippingRepository.save(shippingInfo);
+    }
+
+    // Example of calculating shipping cost (simplified)
+    public double calculateShippingCost(ShippingInfo shippingInfo) {
+        double baseRate = 10.0;
+        double weightRate = 2.0;
+        
+        // Basic shipping cost calculation
+        return baseRate + (shippingInfo.getWeight() * weightRate);
+    }
+
+    // Method to get shipping details by tracking number
+    public ShippingInfo getShippingInfo(String trackingNumber) {
+        return shippingRepository.findById(Long.parseLong(trackingNumber.replace("TRACK-", "")))
+                .orElseThrow(() -> new RuntimeException("Shipping order not found"));
+    }
+}

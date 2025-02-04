@@ -1,0 +1,9 @@
+package com.programming.shippingservice.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.programming.shippingservice.model.ShippingInfo;
+
+public interface ShippingRepository extends JpaRepository<ShippingInfo, Long>{
+
+}

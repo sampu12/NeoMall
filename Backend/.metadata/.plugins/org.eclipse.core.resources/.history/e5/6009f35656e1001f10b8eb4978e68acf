@@ -1,0 +1,5 @@
+package com.programming.shippingservice.repository;
+
+public interface ShippingRepository {
+
+}

@@ -1,0 +1,5 @@
+package com.programming.adminservice.config;
+
+public class SwaggerConfig {
+
+}

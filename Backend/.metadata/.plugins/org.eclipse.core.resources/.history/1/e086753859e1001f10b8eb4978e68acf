@@ -1,0 +1,32 @@
+package com.programming.shippingservice.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.programming.shippingservice.model.ShippingInfo;
+import com.programming.shippingservice.service.ShippingService;
+
+@RestController
+@RequestMapping("/api/shipping")
+public class ShippingController {
+
+    @Autowired
+    private ShippingService shippingService;
+
+    // Endpoint to create a new shipping order
+    @PostMapping("/create")
+    public ShippingInfo createShippingOrder(@RequestBody ShippingInfo shippingInfo) {
+        return shippingService.createShippingOrder(shippingInfo);
+    }
+
+    // Endpoint to calculate shipping cost
+    @GetMapping("/cost")
+    public double calculateShippingCost(@RequestBody ShippingInfo shippingInfo) {
+        return shippingService.calculateShippingCost(shippingInfo);
+    }
+
+    // Endpoint to get shipping details by tracking number
+    @GetMapping("/status/{trackingNumber}")
+    public ShippingInfo getShippingStatus(@PathVariable String trackingNumber) {
+        return shippingService.getShippingInfo(trackingNumber);
+    }
+}

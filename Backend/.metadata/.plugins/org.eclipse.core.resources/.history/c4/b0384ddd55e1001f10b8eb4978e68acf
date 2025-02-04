@@ -1,0 +1,23 @@
+package com.programming.shippingservice.model;
+
+import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import lombok.Data;
+
+@Entity
+@Data
+public class ShippingInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String address;
+    
+    private String shippingType; // e.g., standard, express
+    
+    private Double weight; // Weight of the package in kg
+
+    private String trackingNumber;
+
+}

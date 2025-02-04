@@ -1,0 +1,88 @@
+package com.service;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.model.Cart;
+import com.model.Product;
+import com.repo.CartRepository;
+
+@Service
+public class CartServiceImpl implements CartService {
+   
+	@Autowired
+	private  CartRepository cartRepository;
+	
+	@Autowired
+    private RestTemplate restTemplate;
+
+    private static final String PRODUCT_SERVICE_URL = "http://product-service/product/";
+
+    @Override
+    public Cart addItemToCart(Cart cart) {
+        Cart existingCart = cartRepository.findByUserId(cart.getUserId());
+        if (existingCart == null) {
+            existingCart = new Cart();
+            existingCart.setUserId(cart.getUserId());
+        }
+
+        for (Product product : cart.getProducts()) {
+            // Fetch product details from Product Microservice
+            Product productDetails = restTemplate.getForObject(PRODUCT_SERVICE_URL + product.getId(), Product.class);
+
+            if (productDetails != null) {
+                product.setName(productDetails.getName());
+                product.setDescription(productDetails.getDescription());
+                product.setPrice(productDetails.getPrice());
+
+                // Add or update the product in the cart
+                existingCart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
+                existingCart.getProducts().add(product);
+            } else {
+                throw new RuntimeException("Product not found in Product Service");
+            }
+        }
+
+        return cartRepository.save(existingCart);
+    }
+
+    @Override
+    public Cart removeItemFromCart(int userId, int productId) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            throw new RuntimeException("Cart not found for user: " + userId);
+        }
+
+        cart.getProducts().removeIf(product -> product.getId().equals(String.valueOf(productId)));
+
+        return cartRepository.save(cart);
+    }
+
+    @Override
+    public Cart updateItemQuantity(int userId, int productId, int quantity) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            throw new RuntimeException("Cart not found for user: " + userId);
+        }
+
+        for (Product product : cart.getProducts()) {
+            if (product.getId().equals(String.valueOf(productId))) {
+                product.setQuantity(quantity);
+                break;
+            }
+        }
+
+        return cartRepository.save(cart);
+    }
+
+    @Override
+    public Cart getCartDetails(int userId) {
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            throw new RuntimeException("Cart not found for user: " + userId);
+        }
+        return cart;
+    }
+}

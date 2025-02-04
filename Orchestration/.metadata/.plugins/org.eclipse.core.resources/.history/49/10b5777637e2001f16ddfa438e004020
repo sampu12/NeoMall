@@ -1,0 +1,6 @@
+package com.programming.frontendorchestration.controller;
+
+public class ProductController {
+	private final String PRODUCT_SERVICE_URL = "http://localhost:8082/api/products";
+    
+}

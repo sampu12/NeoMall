@@ -1,0 +1,5 @@
+package com.programming.frontendorchestration.controller;
+
+public class CartController {
+	private final String CART_SERVICE_URL = "http://localhost:8083/api/cart";
+}
