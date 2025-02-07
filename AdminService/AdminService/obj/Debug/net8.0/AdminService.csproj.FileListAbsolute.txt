@@ -1,0 +1,149 @@
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\appsettings.Development.json
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\appsettings.json
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.runtime.json
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.endpoints.json
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.exe
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.deps.json
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.runtimeconfig.json
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.dll
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\AdminService.pdb
+D:\CDAC PRoject\AdminService\AdminService\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.AssemblyReference.cache
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.GeneratedMSBuildEditorConfig.editorconfig
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfoInputs.cache
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfo.cs
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.CoreCompileInputs.cache
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.MvcApplicationPartsAssemblyInfo.cache
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cache
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cs
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\scopedcss\bundle\AdminService.styles.css
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\scopedcss\projectbundle\AdminService.bundle.scp.css
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.json
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.development.json
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssets.props
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.build.AdminService.props
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.AdminService.props
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.AdminService.props
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.pack.json
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminSer.1AF7464D.Up2Date
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.dll
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\refint\AdminService.dll
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.pdb
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\AdminService.genruntimeconfig.cache
+D:\CDAC PRoject\AdminService\AdminService\obj\Debug\net8.0\ref\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\appsettings.Development.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\appsettings.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.endpoints.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.runtime.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.exe
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.deps.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.runtimeconfig.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\AdminService.pdb
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.AssemblyReference.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.GeneratedMSBuildEditorConfig.editorconfig
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfoInputs.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfo.cs
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.CoreCompileInputs.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.MvcApplicationPartsAssemblyInfo.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cs
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\scopedcss\bundle\AdminService.styles.css
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\scopedcss\projectbundle\AdminService.bundle.scp.css
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.development.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssets.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.build.AdminService.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.AdminService.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.AdminService.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.pack.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminSer.1AF7464D.Up2Date
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\refint\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.pdb
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\AdminService.genruntimeconfig.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp2\AdminService\AdminService\obj\Debug\net8.0\ref\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\appsettings.Development.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\appsettings.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.endpoints.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.runtime.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.exe
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.deps.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.runtimeconfig.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\AdminService.pdb
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\bin\Debug\net8.0\Newtonsoft.Json.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.AssemblyReference.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.GeneratedMSBuildEditorConfig.editorconfig
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfoInputs.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfo.cs
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.CoreCompileInputs.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.MvcApplicationPartsAssemblyInfo.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cs
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\scopedcss\bundle\AdminService.styles.css
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\scopedcss\projectbundle\AdminService.bundle.scp.css
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.development.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssets.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.build.AdminService.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.AdminService.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.AdminService.props
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.pack.json
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminSer.1AF7464D.Up2Date
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\refint\AdminService.dll
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.pdb
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\AdminService.genruntimeconfig.cache
+E:\Work\CDAC\CDAC Project\AdminServiceBackUp3\AdminService\AdminService\obj\Debug\net8.0\ref\AdminService.dll
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\appsettings.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.endpoints.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.staticwebassets.runtime.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.exe
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.deps.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.runtimeconfig.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.dll
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\AdminService.pdb
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.AssemblyReference.cache
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfoInputs.cache
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.AssemblyInfo.cs
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.csproj.CoreCompileInputs.cache
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cache
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.RazorAssemblyInfo.cs
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.sourcelink.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\scopedcss\bundle\AdminService.styles.css
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\scopedcss\projectbundle\AdminService.bundle.scp.css
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.AdminService.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.build.AdminService.props
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.AdminService.props
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.AdminService.props
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminSer.1AF7464D.Up2Date
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.dll
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\refint\AdminService.dll
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.pdb
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\AdminService.genruntimeconfig.cache
+C:\Users\yadny\OneDrive\Desktop\Neo Mall Project\NeoMall\AdminService\AdminService\obj\Debug\net8.0\ref\AdminService.dll

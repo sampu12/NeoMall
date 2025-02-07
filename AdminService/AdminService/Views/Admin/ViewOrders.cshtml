@@ -1,0 +1,98 @@
+﻿@model List<OrderResponse>
+
+@{
+    ViewData["Title"] = "Orders List";
+}
+
+<h2>Orders List</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<!-- Search Bar -->
+<input type="text" id="searchOrderInput" class="form-control mb-3" placeholder="Search Orders..." />
+
+<!-- Orders Table -->
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Order Number</th>
+            <th>User ID</th>
+            <th>Products</th>
+        </tr>
+    </thead>
+    <tbody id="orderResults">
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderNumber</td>
+                <td>@order.UserId</td>
+                <td>
+                    <ul>
+                        @foreach (var product in order.ProductDtoList)
+                        {
+                            <li><strong>@product.Name</strong> (Qty: @product.Quantity) - $@product.Price</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- jQuery for AJAX Search -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let originalData = $("#orderResults").html(); // Save original table content
+
+        $("#searchOrderInput").on("input", function () {
+            let query = $(this).val().trim();
+
+            if (query.length === 0) {
+                $("#orderResults").html(originalData); // Restore original orders if input is cleared
+                return;
+            }
+
+            if (query.length < 2) return; // Avoid searching for very short queries
+
+            $.ajax({
+                url: "/Admin/SearchOrder",
+                type: "GET",
+                data: { query: query },
+                success: function (orders) {
+                    let resultBody = $("#orderResults");
+                    resultBody.empty();
+
+                    if (orders && orders.length > 0) {
+                        $.each(orders, function (index, order) {
+                            let productList = "<ul>";
+                            $.each(order.productDtoList, function (i, product) {
+                                productList += `<li><strong>${product.name}</strong> (Qty: ${product.quantity}) - $${product.price}</li>`;
+                            });
+                            productList += "</ul>";
+
+                            resultBody.append(`
+                                <tr>
+                                    <td>${order.orderNumber}</td>
+                                    <td>${order.userId}</td>
+                                    <td>${productList}</td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        resultBody.append("<tr><td colspan='3' class='text-center text-danger'>No orders found.</td></tr>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("🚨 AJAX Error:", error);
+                    $("#orderResults").html("<tr><td colspan='3' class='text-center text-danger'>Error fetching orders.</td></tr>");
+                }
+            });
+        });
+    });
+</script>

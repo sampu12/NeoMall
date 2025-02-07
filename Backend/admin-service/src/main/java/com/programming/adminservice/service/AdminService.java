@@ -12,4 +12,6 @@ public interface AdminService {
     public Admin createAdmin(Admin admin);
 
     public void deleteAdmin(Long id);
+    
+    public boolean validateAdmin(String username, String password);
 }

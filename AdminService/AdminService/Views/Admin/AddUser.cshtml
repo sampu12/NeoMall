@@ -1,0 +1,148 @@
+﻿@model AdminService.Models.User
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Add New User</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="AddUser" asp-controller="Admin" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">User Name:</label>
+                            <input asp-for="name" class="form-control" />
+                            <span asp-validation-for="name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input asp-for="email" class="form-control" />
+                            <span asp-validation-for="email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password:</label>
+                            <input asp-for="password" type="password" class="form-control" />
+                            <span asp-validation-for="password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mobile Number:</label>
+                            <input asp-for="mobile_number" class="form-control" />
+                            <span asp-validation-for="mobile_number" class="text-danger"></span>
+                        </div>
+
+                        <h5 class="mt-4">Address Details</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Address Line 1:</label>
+                            <input asp-for="addresses[0].addressLine1" class="form-control" />
+                            <span asp-validation-for="addresses[0].addressLine1" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address Line 2:</label>
+                            <input asp-for="addresses[0].addressLine2" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">City:</label>
+                            <input asp-for="addresses[0].city" class="form-control" />
+                            <span asp-validation-for="addresses[0].city" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">State:</label>
+                            <input asp-for="addresses[0].state" class="form-control" />
+                            <span asp-validation-for="addresses[0].state" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Country:</label>
+                            <input asp-for="addresses[0].country" class="form-control" />
+                            <span asp-validation-for="addresses[0].country" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Postal Code:</label>
+                            <input asp-for="addresses[0].postalCode" class="form-control" />
+                            <span asp-validation-for="addresses[0].postalCode" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address Type:</label>
+                            <select asp-for="addresses[0].type" class="form-select">
+                                <option value="Shipping">Shipping</option>
+                                <option value="Billing">Billing</option>
+                            </select>
+                        </div>
+
+                        <h5 class="mt-4">Account Details</h5>
+
+                        <div class="mb-3">
+                            <label class="form-label">Account Number:</label>
+                            <input asp-for="account.accountNumber" class="form-control" />
+                            <span asp-validation-for="account.accountNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Account Type:</label>
+                            <select asp-for="account.type" class="form-select">
+                                <option value="RegularUser">Regular User</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Seller">Seller</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Registration Date:</label>
+                            <input asp-for="account.registrationDate" type="date" class="form-control" />
+                            <span asp-validation-for="account.registrationDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Account Status:</label>
+                            <select asp-for="account.status" class="form-select">
+                                <option value="Active">Active</option>
+                                <option value="Deactivated">Deactivated</option>
+                                <option value="Suspended">Suspended</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Verified:</label>
+                            <select asp-for="account.emailVerified" class="form-select">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone Verified:</label>
+                            <select asp-for="account.phoneVerified" class="form-select">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Register User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add jQuery Validation Scripts -->
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+}
+
+

@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Admin Services</h2>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <!-- User Management -->
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">User Management</h5>
+                    <a href="@Url.Action("UserManagement", "Admin")" class="btn btn-primary w-100">Proceed</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Management -->
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Product Management</h5>
+                    <a href="@Url.Action("ProductManagement", "Admin")" class="btn btn-success w-100">Proceed</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Orders -->
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">View Orders</h5>
+                    <a href="@Url.Action("ViewOrders", "Admin")" class="btn btn-primary w-100">Proceed</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

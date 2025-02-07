@@ -1,0 +1,117 @@
+﻿@model List<AdminService.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container">
+    <h2 class="text-center text-primary mb-4">Products List</h2>
+
+    <div class="d-flex justify-content-between mb-3">
+        <a href="/Admin/AddProduct" class="btn btn-success">+ Add Product</a>
+        <input type="text" id="searchQuery" class="form-control w-25" placeholder="Search products by Product Name" onkeyup="searchProduct()">
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Category ID</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
+                <tr>
+                    <td colspan="5" class="no-products">Loading products...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Local Bootstrap JS -->
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        fetchProducts();
+
+        function fetchProducts() {
+            $.ajax({
+                url: "/Admin/GetProducts",
+                type: "GET",
+                success: function (data) {
+                    renderProducts(data);
+                },
+                error: function () {
+                    $("#productTableBody").html("<tr><td colspan='5' class='no-products'>Error loading products.</td></tr>");
+                }
+            });
+        }
+
+        function renderProducts(data) {
+            let tableBody = $("#productTableBody");
+            tableBody.empty();
+
+            if (!Array.isArray(data) || data.length === 0) {
+                tableBody.append("<tr><td colspan='5' class='no-products'>No products found.</td></tr>");
+                return;
+            }
+
+            data.forEach(product => {
+                let productId = product.productId?.productId ?? "N/A";
+                let categoryId = product.productId?.categoryId ?? "N/A";
+                let productName = product.name ?? "N/A";
+                let price = product.price ?? 0;
+
+                let row = `
+                    <tr class="product-row">
+                        <td>${productId}</td>
+                        <td class="product-name">${productName}</td>
+                        <td>${categoryId}</td>
+                        <td>₹${price.toFixed(2)}</td>
+                        <td>
+                            <a href="/Admin/EditProduct/${categoryId}/${productId}" class="btn btn-primary btn-sm">Edit</a>
+                            <button class="btn btn-danger btn-sm deleteProduct" data-categoryid="${categoryId}" data-productid="${productId}">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.append(row);
+            });
+        }
+
+
+        // Delete Product Confirmation
+        $(document).on("click", ".deleteProduct", function () {
+            var categoryId = $(this).data("categoryid");
+            var productId = $(this).data("productid");
+
+            if (confirm("Are you sure you want to delete this product?")) {
+                $.ajax({
+                    url: `/Admin/DeleteProduct/${categoryId}/${productId}`,
+                    type: "POST",
+                    success: function (response) {
+                        alert("✅ Product deleted successfully!");
+                        fetchProducts(); // Reload products without page refresh
+                    },
+                    error: function () {
+                        alert("❌ Failed to delete product. Please try again.");
+                    }
+                });
+            }
+        });
+    });
+
+        function searchProduct() {
+        let query = $("#searchQuery").val().toLowerCase();
+        $(".product-row").each(function () {
+            let productName = $(this).find(".product-name").text().toLowerCase();
+            $(this).toggle(productName.includes(query));
+        });
+    }
+</script>

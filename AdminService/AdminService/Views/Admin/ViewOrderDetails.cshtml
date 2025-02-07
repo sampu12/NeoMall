@@ -1,0 +1,36 @@
+﻿@model AdminService.Models.Order
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="text-center">Order Details</h2>
+
+<div class="container">
+    <h3>Order ID: @Model.id</h3>
+    <h4>Order Number: @Model.orderNumber</h4>
+
+    <h5>Order Line Items:</h5>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>SKU Code</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.orderLineItemsList)
+            {
+                <tr>
+                    <td>@item.skucode</td>
+                    <td>@item.price:F2</td>
+                    <td>@item.quantity</td>
+                    <td>@(item.price * item.quantity):F2</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

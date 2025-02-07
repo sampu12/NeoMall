@@ -1,0 +1,61 @@
+﻿@model AdminService.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container">
+    <h2 class="text-center text-primary mb-4">Edit Product</h2>
+
+    <div class="card p-4 shadow-sm">
+        <form method="post" asp-action="UpdateProduct" asp-controller="Admin">
+            <!-- Hidden fields for IDs -->
+            <input type="hidden" asp-for="productId.categoryId" />
+            <input type="hidden" asp-for="productId.productId" />
+
+            <div class="mb-3">
+                <label class="form-label">Product ID</label>
+                <input type="text" class="form-control" value="@Model.productId.productId" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category ID</label>
+                <input type="text" class="form-control" value="@Model.productId.categoryId" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Product Name</label>
+                <input asp-for="name" class="form-control" required />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <input asp-for="description" class="form-control" required />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Image URL</label>
+                <input asp-for="image" class="form-control" required />
+                <span asp-validation-for="image" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Price (₹)</label>
+                <input asp-for="price" class="form-control" step="0.01" required />
+                <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Update</button>
+                <a href="@Url.Action("ProductManagement", "Admin")" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

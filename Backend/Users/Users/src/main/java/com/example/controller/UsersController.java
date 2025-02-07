@@ -1,6 +1,8 @@
 package com.example.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,13 @@ public class UsersController {
 		public Users getUserByEmail(@PathVariable ("email") String email) {
 		    return usersService.getUserByEmail(email);
 		}
+
+		// Get all users
+	    @GetMapping("/getAllUsers")
+	    public List<Users> getAllUsers() {
+	        List<Users> users = usersService.getAllUsers();
+	        return (users);
+	    }
 		
 		@PutMapping("/updateUser/{id}")
 		public Users updateUserById(@PathVariable("id") int user_id, @RequestBody Users updatedUser) {

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "VEhqPPMgHHE=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\yadny\\OneDrive\\Desktop\\Neo Mall Project\\NeoMall\\AdminService\\AdminService\\AdminService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\yadny\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

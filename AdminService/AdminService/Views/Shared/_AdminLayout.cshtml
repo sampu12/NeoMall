@@ -1,0 +1,62 @@
+﻿@{
+    var username = Context.Session.GetString("AdminUsername") ?? "Admin";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
+    <style>
+        /* Dark Blue Navbar */
+        .navbar-dark {
+            background-color: #0d47a1 !important; /* Dark Blue */
+        }
+
+        .footer {
+            background-color: #0d47a1;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 🔵 NAVBAR WITH LOGOUT BUTTON -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-light" href="@Url.Action("Index", "Admin")">Admin Panel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <a href="@Url.Action("Logout", "Admin")" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 🔹 PAGE CONTENT -->
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Virtual Shopping Mall | All Rights Reserved.</p>
+    </footer>
+
+    <script src="~/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

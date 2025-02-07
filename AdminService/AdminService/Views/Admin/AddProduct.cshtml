@@ -1,0 +1,64 @@
+﻿@model AdminService.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Add Product</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="AddProduct">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Product ID:</label>
+                    <input asp-for="productId.productId" class="form-control" />
+                    <span asp-validation-for="productId.productId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category ID:</label>
+                    <input asp-for="productId.categoryId" class="form-control" />
+                    <span asp-validation-for="productId.categoryId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Product Name:</label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Image URL:</label>
+                    <input asp-for="image" class="form-control" />
+                    <span asp-validation-for="image" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Description:</label>
+                    <textarea asp-for="description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Price (in Rs.):</label>
+                    <input asp-for="price" class="form-control" step="0.01" />
+                    <span asp-validation-for="price" class="text-danger"></span>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success w-100">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add jQuery Validation Scripts -->
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+}

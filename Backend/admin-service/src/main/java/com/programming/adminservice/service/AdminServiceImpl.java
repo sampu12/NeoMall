@@ -24,11 +24,20 @@ public class AdminServiceImpl implements AdminService{
     }
 
     public Admin createAdmin(Admin admin) {
+    	if (admin.getPassword() == null || admin.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
         return adminRepository.save(admin);
     }
 
     public void deleteAdmin(Long id) {
         adminRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean validateAdmin(String username, String password) {
+        Admin admin = adminRepository.findByUsernameAndPassword(username, password);
+        return admin != null;
     }
 }
 
