@@ -1,0 +1,51 @@
+package com.programming.frontendorchestration.service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.CartItems;
+import com.programming.frontendorchestration.model.CartRequest;
+import com.programming.frontendorchestration.model.Product;
+
+@Service
+public class CartService {
+
+	@Autowired
+	private RestTemplate restTemplate;
+	// private final String USER_SERVICE_URL = "http://user-service/users";
+	private final String CART_SERVICE_URL = "http://cart-service/cart";
+	private final String PRODUCT_SERVICE_URL = "http://product-service/product";
+
+	public ResponseEntity<?> addToCart(String token,CartRequest req) {
+		String url = CART_SERVICE_URL + "/add";
+		return restTemplate.postForEntity(url, req, String.class);
+	}
+
+	public List<Product> getCartItems() {
+		try {
+			String url = CART_SERVICE_URL + "/1";
+			CartItems[] items = restTemplate.getForObject(url, CartItems[].class);
+			List<Product> products = new ArrayList<Product>();
+			if (items != null) {
+				for (CartItems item : items) {
+					Product product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/get/"
+							+ item.getProductId().getCategoryId() + "/" + item.getProductId().getProductId(),
+							Product.class);
+					products.add(product);
+				}
+			}
+			return products;
+		} catch (RestClientException e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+}

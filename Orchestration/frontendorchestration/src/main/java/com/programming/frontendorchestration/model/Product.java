@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-    private String id;
+	private ProductId productId;
     private String name;
+    private String image;
+    private int quantity;
     private String description;
     private BigDecimal price;
 }

@@ -1,0 +1,62 @@
+package com.programming.frontendorchestration.service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.CartItems;
+import com.programming.frontendorchestration.model.CartRequest;
+import com.programming.frontendorchestration.model.OrderRequest;
+import com.programming.frontendorchestration.model.Payment;
+import com.programming.frontendorchestration.model.PaymentModel;
+import com.programming.frontendorchestration.model.Product;
+import com.programming.frontendorchestration.model.User;
+@Service
+public class PaymentService {
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	private final String User_SERVICE_URL = "http://user-service";
+	private final String CART_SERVICE_URL = "http://cart-service/cart";
+	private final String PRODUCT_SERVICE_URL = "http://product-service/product";
+	private final String PAYMENT_SERVICE_URL = "http://payment-service/payment";
+	private final String ORDER_SERVICE_URL = "http://order-service/order";
+	
+	public ResponseEntity<?> payUsingDebit(String token, Payment payment) {
+		try { 
+			CartRequest cartRes = restTemplate.getForObject(User_SERVICE_URL + "/auth/validate?token=" + token,CartRequest.class);
+			User  user = restTemplate.getForObject(User_SERVICE_URL + "/users/getUserByID/" + cartRes.getUserId(), User.class);
+			CartItems[] items = restTemplate.getForObject(CART_SERVICE_URL+"/"+cartRes.getUserId(), CartItems[].class);
+			List<Product> products = new ArrayList<Product>();
+			if (items != null) {
+				for (CartItems item : items) {
+					Product product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/get/"
+							+ item.getProductId().getCategoryId() + "/" + item.getProductId().getProductId(),
+							Product.class);
+					product.setQuantity(item.getQuantity());
+					products.add(product);
+				}
+				OrderRequest orderRequest = new OrderRequest();
+				orderRequest.setUserId(cartRes.getUserId());
+				orderRequest.setProductsList(products);
+				PaymentModel paymentModel = new PaymentModel();
+				paymentModel.setCardNo(payment.getCardDetails().getCardNumber());
+				paymentModel.setExpiryDate(payment.getCardDetails().getExpiryDate());
+				paymentModel.setCvvNo(payment.getCardDetails().getCvv());
+				restTemplate.postForEntity(PAYMENT_SERVICE_URL + "/payWithDebit", paymentModel, String.class);
+				return restTemplate.postForEntity(ORDER_SERVICE_URL, orderRequest, String.class);
+			}
+			return null;
+		} catch (RestClientException e) {
+			e.printStackTrace();
+			return ResponseEntity.ok(null);
+		}
+	}
+
+}

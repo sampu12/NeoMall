@@ -1,0 +1,93 @@
+package com.programming.frontendorchestration.model;
+
+import java.sql.Date;
+
+public class PaymentModel {
+	
+	private int userId;
+	private String cardHolderName;
+	private double amount;
+	private long cardNo;
+	private String expiryDate;
+	private int cvvNo;
+	private int cardPassword;
+	
+	
+	
+	public PaymentModel() {
+		super();
+	}
+
+	public PaymentModel(int userId, String cardHolderName, double amount, long cardNo, String expiryDate, int cvvNo, int cardPassword) {
+		super();
+		this.userId = userId;
+		this.cardHolderName = cardHolderName;
+		this.amount = amount;
+		this.cardNo = cardNo;
+		this.expiryDate = expiryDate;
+		this.cvvNo = cvvNo;
+		this.cardPassword = cardPassword;
+	}
+
+	
+	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public long getCardNo() {
+		return cardNo;
+	}
+
+	public void setCardNo(long cardNo) {
+		this.cardNo = cardNo;
+	}
+
+	public String getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public int getCvvNo() {
+		return cvvNo;
+	}
+
+	public void setCvvNo(int cvvNo) {
+		this.cvvNo = cvvNo;
+	}
+
+	public int getCardPassword() {
+		return cardPassword;
+	}
+
+	public void setCardPassword(int cardPassword) {
+		this.cardPassword = cardPassword;
+	}
+
+	public String getCardHolderName() {
+		return cardHolderName;
+	}
+
+	public void setCardHolderName(String cardHolderName) {
+		this.cardHolderName = cardHolderName;
+	}
+	
+	
+	
+	
+}

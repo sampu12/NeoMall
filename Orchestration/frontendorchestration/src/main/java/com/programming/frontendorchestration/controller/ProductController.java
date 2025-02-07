@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.programming.frontendorchestration.model.Product;
@@ -19,7 +21,16 @@ public class ProductController {
 
 	@GetMapping
 	public List<Product> getProducts() {
-
 		return productService.getProducts();
+	}
+	
+	@GetMapping("/search")
+	public List<Product> getProductsBySearch(@RequestParam String query) {
+		return productService.getProductsBySearch(query);
+	}
+	
+	@GetMapping("/{categoryId}/{productId}")
+	public Product getProductsById(@PathVariable int categoryId ,@PathVariable int productId) {
+		return productService.getProductById(categoryId,productId);
 	}
 }

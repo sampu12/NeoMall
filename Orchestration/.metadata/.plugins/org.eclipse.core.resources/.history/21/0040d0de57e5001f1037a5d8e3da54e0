@@ -1,0 +1,17 @@
+package com.programming.frontendorchestration.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.programming.frontendorchestration.model.Product;
+
+@Service
+public class OrderService {
+
+	public List<Product> getOrderItems(String token) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

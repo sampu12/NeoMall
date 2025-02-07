@@ -2,6 +2,10 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\ysais\OneDrive\Desktop\NeoMall\Backend\Payment"/>
+			<item value="C:\Users\ysais\OneDrive\Desktop\NeoMall\Backend\Product"/>
+			<item value="C:\Users\ysais\OneDrive\Desktop\NeoMall\Backend\microservices-new"/>
+			<item value="C:\Users\ysais\OneDrive\Desktop\NeoMall\Backend\Users"/>
 			<item value="C:\Users\ysais\OneDrive\Desktop\Major_Project\Backend\Cart"/>
 			<item value="C:\Users\ysais\OneDrive\Desktop\Major_Project\Backend\ReviewAndRating"/>
 			<item value="C:\Users\ysais\OneDrive\Desktop\Major_Project\Backend\Users"/>

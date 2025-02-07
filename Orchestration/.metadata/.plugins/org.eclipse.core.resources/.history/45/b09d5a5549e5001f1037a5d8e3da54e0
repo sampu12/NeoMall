@@ -1,0 +1,14 @@
+package com.programming.frontendorchestration.service;
+
+import org.springframework.http.ResponseEntity;
+
+import com.programming.frontendorchestration.model.Payment;
+
+public class PaymentService {
+
+	public ResponseEntity<?> payUsingDebit(String sToken, Payment payment) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.programming.orderservice.dto.OrderRequest;
 import com.programming.orderservice.dto.OrderResponse;
+import com.programming.orderservice.dto.ProductDto;
 import com.programming.orderservice.service.OrderService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value = "/api/order")
+@RequestMapping(value = "/order")
 @RequiredArgsConstructor
 public class OrderController {
 	private final OrderService orderService;
@@ -31,7 +33,13 @@ public class OrderController {
 
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public List<OrderResponse> getAllorders() {
+	public List<OrderResponse> getAllOrders() {
 		return orderService.getAllOrders();
+	}
+
+	@GetMapping("/user/{userId}")
+	@ResponseStatus(HttpStatus.OK)
+	public List<ProductDto> getAllOrderItemsByUserId(@PathVariable Long userId) {
+		return orderService.getAllProductsByUserId(userId);
 	}
 }

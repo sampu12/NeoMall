@@ -15,5 +15,5 @@ public class Cart {
 
 	private int userId;
 
-	private List<Product> products = new ArrayList<>();
+	private List<CartRequest> products = new ArrayList<>();
 }

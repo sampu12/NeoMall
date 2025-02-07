@@ -1,0 +1,21 @@
+package com.programming.frontendorchestration.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.User;
+
+@Service
+public class AuthService {
+	@Autowired
+    private RestTemplate restTemplate;
+    
+    private final String User_SERVICE_URL = "http://user-service/auth";
+    
+    public ResponseEntity<?> loginUser(User user) {
+        String url = User_SERVICE_URL + "/login";
+        return restTemplate.postForEntity(url, user, String.class);
+    }
+}

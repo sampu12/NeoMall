@@ -1,205 +1,329 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
+  const navigate = useNavigate();
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
+  const [newAddress, setNewAddress] = useState(null);
   const [formData, setFormData] = useState({
-    deliveryAddress: {
-      name: '',
-      addressLine1: '',
-      addressLine2: '',
-      city: '',
-      state: '',
-      postalCode: ''
-    },
     cardDetails: {
       cardNumber: '',
       expiryDate: '',
       cvv: ''
     }
   });
+  const [errors, setErrors] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Handle changes for delivery address and card details
+  useEffect(() => {
+    const sessionToken = localStorage.getItem('sessionToken');
+
+    fetch('http://localhost:8989/user/profile', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`,
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile.');
+        }
+        return response.json();
+      })
+      .then(data => setAddresses(data.addresses || []))
+      .catch(err => alert('Failed to fetch addresses'));
+  }, []);
+
+  // --- Address Handlers ---
+  const handleAddressSelection = (addressId) => {
+    setSelectedAddressIndex(addressId);
+    setNewAddress(null);
+    setErrors(prev => ({ ...prev, address: '' }));
+  };
+
+  const handleNewAddressChange = (e) => {
+    const { name, value } = e.target;
+    setNewAddress(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validateNewAddress = () => {
+    const newErrors = {};
+    if (!newAddress || !newAddress.addressLine1 || newAddress.addressLine1.trim().length < 3) {
+      newErrors.addressLine1 = 'Address Line 1 must be at least 3 characters.';
+    }
+    if (!newAddress || !newAddress.city || !/^[A-Za-z\s]{2,30}$/.test(newAddress.city.trim())) {
+      newErrors.city = 'City must be alphabets only (2-30 characters).';
+    }
+    if (!newAddress || !newAddress.state || !/^[A-Za-z\s]{2,30}$/.test(newAddress.state.trim())) {
+      newErrors.state = 'State must be alphabets only (2-30 characters).';
+    }
+    if (!newAddress || !newAddress.postalCode || !/^\d{5}$/.test(newAddress.postalCode.trim())) {
+      newErrors.postalCode = 'Postal Code must be exactly 5 digits.';
+    }
+    return newErrors;
+  };
+
+  const handleSaveNewAddress = () => {
+    const addressErrors = validateNewAddress();
+    if (Object.keys(addressErrors).length > 0) {
+      setErrors(prev => ({ ...prev, ...addressErrors }));
+      return;
+    }
+
+    const sessionToken = localStorage.getItem('sessionToken');
+    const updatedProfile = { addresses: [...addresses, newAddress] };
+
+    fetch('http://localhost:8989/user/update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`,
+      },
+      body: JSON.stringify(updatedProfile),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update profile.');
+        }
+        return response.text();
+      })
+      .then(() => {
+        setAddresses(updatedProfile.addresses);
+        setNewAddress(null);
+        setErrors(prev => ({ ...prev, addressLine1: '', city: '', state: '', postalCode: '' }));
+      })
+      .catch(err => alert(err.message));
+  };
+
+  // --- Payment Handlers ---
   const handleChange = (e) => {
-    const { name, value, dataset } = e.target;
-    const section = dataset.section; // 'deliveryAddress' or 'cardDetails'
-    
-    setFormData((prevData) => ({
+    const { name, value } = e.target;
+    setFormData(prevData => ({
       ...prevData,
-      [section]: {
-        ...prevData[section],
-        [name]: value
-      }
+      cardDetails: {
+        ...prevData.cardDetails,
+        [name]: value,
+      },
     }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validatePaymentDetails = () => {
+    const newErrors = {};
+    const { cardNumber, expiryDate, cvv } = formData.cardDetails;
+    if (!cardNumber || !/^\d{16}$/.test(cardNumber.trim())) {
+      newErrors.cardNumber = 'Card number must be exactly 16 digits.';
+    }
+    if (!expiryDate || !/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate.trim())) {
+      newErrors.expiryDate = 'Expiry date must be in MM/YY format.';
+    }
+    if (!cvv || !/^\d{3,4}$/.test(cvv.trim())) {
+      newErrors.cvv = 'CVV must be 3 or 4 digits.';
+    }
+    return newErrors;
   };
 
   const handlePaymentSubmit = (e) => {
     e.preventDefault();
+
+    // Validate Payment Details
+    const paymentErrors = validatePaymentDetails();
+    let valid = Object.keys(paymentErrors).length === 0;
+
+    // Validate that either an existing address or a new address is provided
+    if (selectedAddressIndex === null && !newAddress) {
+      valid = false;
+      paymentErrors.address = 'Please select or enter a delivery address.';
+    }
+
+    if (!valid) {
+      setErrors(paymentErrors);
+      return;
+    }
+
+    const sessionToken = localStorage.getItem('sessionToken');
+
+    let addressId = null;
+    if (selectedAddressIndex !== null) {
+      const selectedAddress = addresses.find(address => address.addressId === selectedAddressIndex);
+      if (!selectedAddress) {
+        setErrors(prev => ({ ...prev, address: 'Invalid address selected.' }));
+        return;
+      }
+      addressId = selectedAddress.addressId;
+    }
+
+    const paymentData = {
+      addressId,
+      cardDetails: formData.cardDetails,
+    };
+
     setIsProcessing(true);
 
-    // Simulate payment processing
-    setTimeout(() => {
-      alert('Payment and Delivery Address Submitted Successfully!');
-      setIsProcessing(false);
-    }, 2000); // Simulate 2 seconds delay for payment processing
+    fetch('http://localhost:8989/payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`,
+      },
+      body: JSON.stringify(paymentData),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Payment failed.');
+        }
+        return response.text();
+      })
+      .then(() => {
+        alert('Order placed successfully!');
+        navigate('/');
+        setIsProcessing(false);
+      })
+      .catch(err => {
+        alert(err.message);
+        setIsProcessing(false);
+      });
   };
 
   return (
-    <div>
-      {/* Header */}
-      <header className="text-white text-center py-4 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <h1 className="fw-bold">Virtual Shopping Mall</h1>
-        <p className="lead">Your Ultimate Online Shopping & Social Experience</p>
-      </header>
-
-      {/* Navigation Bar */}
-      <nav className="bg-dark py-2 shadow-sm text-center">
-        <Link to="/" className="text-white mx-3 fw-semibold">Home</Link>
-        <Link to="/products" className="text-white mx-3 fw-semibold">Products</Link>
-        <Link to="/cart" className="text-white mx-3 fw-semibold">Cart</Link>
-        <Link to="/social-feed" className="text-white mx-3 fw-semibold">Social Feed</Link>
-      </nav>
-
-      {/* Payment Content */}
-      <div className="container mt-5">
-        <h3 className="fw-bold text-dark text-center">Enter Payment and Delivery Details</h3>
-        <form onSubmit={handlePaymentSubmit} className="mt-4">
-          
-          {/* Delivery Address Section */}
-          <h4 className="text-dark">Delivery Address</h4>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">Full Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              data-section="deliveryAddress"
-              className="form-control"
-              value={formData.deliveryAddress.name}
-              onChange={handleChange}
-              required
-            />
+    <div className="container mt-5">
+      <h3 className="fw-bold text-dark text-center">Enter Payment and Delivery Details</h3>
+      <form onSubmit={handlePaymentSubmit} className="mt-4">
+        <h4 className="text-dark">Delivery Address</h4>
+        {addresses.length > 0 ? (
+          <div className="mb-4">
+            {addresses.map((address) => (
+              <div key={address.addressId} className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="selectedAddress"
+                  id={`address-${address.addressId}`}
+                  onChange={() => handleAddressSelection(address.addressId)}
+                  checked={selectedAddressIndex === address.addressId}
+                />
+                <label className="form-check-label" htmlFor={`address-${address.addressId}`}>
+                  {`${address.addressLine1}, ${address.city}, ${address.state}, ${address.postalCode}`}
+                </label>
+              </div>
+            ))}
+            {errors.address && <div className="alert alert-danger py-1">{errors.address}</div>}
           </div>
-          <div className="mb-3">
-            <label htmlFor="addressLine1" className="form-label">Address Line 1</label>
+        ) : (
+          <p>No addresses found. Please add a new address.</p>
+        )}
+
+        {newAddress ? (
+          <div className="mt-3">
             <input
               type="text"
-              id="addressLine1"
+              className="form-control mb-2"
+              placeholder="Address Line 1"
               name="addressLine1"
-              data-section="deliveryAddress"
-              className="form-control"
-              value={formData.deliveryAddress.addressLine1}
-              onChange={handleChange}
+              value={newAddress.addressLine1}
+              onChange={handleNewAddressChange}
               required
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="addressLine2" className="form-label">Address Line 2 (Optional)</label>
+            {errors.addressLine1 && <div className="alert alert-danger py-1">{errors.addressLine1}</div>}
             <input
               type="text"
-              id="addressLine2"
-              name="addressLine2"
-              data-section="deliveryAddress"
-              className="form-control"
-              value={formData.deliveryAddress.addressLine2}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="city" className="form-label">City</label>
-            <input
-              type="text"
-              id="city"
+              className="form-control mb-2"
+              placeholder="City"
               name="city"
-              data-section="deliveryAddress"
-              className="form-control"
-              value={formData.deliveryAddress.city}
-              onChange={handleChange}
+              value={newAddress.city}
+              onChange={handleNewAddressChange}
               required
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="state" className="form-label">State</label>
+            {errors.city && <div className="alert alert-danger py-1">{errors.city}</div>}
             <input
               type="text"
-              id="state"
+              className="form-control mb-2"
+              placeholder="State"
               name="state"
-              data-section="deliveryAddress"
-              className="form-control"
-              value={formData.deliveryAddress.state}
-              onChange={handleChange}
+              value={newAddress.state}
+              onChange={handleNewAddressChange}
               required
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="postalCode" className="form-label">Postal Code</label>
+            {errors.state && <div className="alert alert-danger py-1">{errors.state}</div>}
             <input
               type="text"
-              id="postalCode"
+              className="form-control mb-2"
+              placeholder="Postal Code"
               name="postalCode"
-              data-section="deliveryAddress"
-              className="form-control"
-              value={formData.deliveryAddress.postalCode}
-              onChange={handleChange}
+              value={newAddress.postalCode}
+              onChange={handleNewAddressChange}
               required
             />
+            {errors.postalCode && <div className="alert alert-danger py-1">{errors.postalCode}</div>}
+            <div className="d-flex">
+              <button type="button" onClick={handleSaveNewAddress} className="btn btn-success btn-sm me-2">
+                Save Address
+              </button>
+              <button type="button" onClick={() => setNewAddress(null)} className="btn btn-secondary btn-sm">
+                Cancel
+              </button>
+            </div>
           </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setNewAddress({ addressLine1: '', city: '', state: '', postalCode: '' })}
+            className="btn btn-primary btn-sm mt-2"
+          >
+            Add New Address
+          </button>
+        )}
 
-          {/* Payment Details Section */}
-          <h4 className="text-dark mt-4">Payment Details</h4>
-          <div className="mb-3">
-            <label htmlFor="cardNumber" className="form-label">Card Number</label>
-            <input
-              type="text"
-              id="cardNumber"
-              name="cardNumber"
-              data-section="cardDetails"
-              className="form-control"
-              value={formData.cardDetails.cardNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="expiryDate" className="form-label">Expiry Date</label>
-            <input
-              type="text"
-              id="expiryDate"
-              name="expiryDate"
-              data-section="cardDetails"
-              className="form-control"
-              value={formData.cardDetails.expiryDate}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="cvv" className="form-label">CVV</label>
-            <input
-              type="text"
-              id="cvv"
-              name="cvv"
-              data-section="cardDetails"
-              className="form-control"
-              value={formData.cardDetails.cvv}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <h4 className="text-dark mt-4">Payment Details</h4>
+        <div className="mb-3">
+          <label htmlFor="cardNumber" className="form-label">Card Number</label>
+          <input
+            type="text"
+            id="cardNumber"
+            name="cardNumber"
+            className="form-control"
+            value={formData.cardDetails.cardNumber}
+            onChange={handleChange}
+            required
+          />
+          {errors.cardNumber && <div className="alert alert-danger py-1">{errors.cardNumber}</div>}
+        </div>
+        <div className="mb-3">
+          <label htmlFor="expiryDate" className="form-label">Expiry Date (MM/YY)</label>
+          <input
+            type="text"
+            id="expiryDate"
+            name="expiryDate"
+            className="form-control"
+            value={formData.cardDetails.expiryDate}
+            onChange={handleChange}
+            required
+          />
+          {errors.expiryDate && <div className="alert alert-danger py-1">{errors.expiryDate}</div>}
+        </div>
+        <div className="mb-3">
+          <label htmlFor="cvv" className="form-label">CVV</label>
+          <input
+            type="text"
+            id="cvv"
+            name="cvv"
+            className="form-control"
+            value={formData.cardDetails.cvv}
+            onChange={handleChange}
+            required
+          />
+          {errors.cvv && <div className="alert alert-danger py-1">{errors.cvv}</div>}
+        </div>
 
-          {/* Submit Button */}
-          <div className="text-center">
-            <button type="submit" className="btn btn-primary" disabled={isProcessing}>
-              {isProcessing ? 'Processing...' : 'Pay Now'}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* Footer */}
-      <footer className="text-white text-center py-3 mt-5 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <p className="mb-0">&copy; 2025 Virtual Shopping Mall | All Rights Reserved.</p>
-      </footer>
+        <div className="text-center">
+          <button type="submit" className="btn btn-primary" disabled={isProcessing}>
+            {isProcessing ? 'Processing...' : 'Pay Now'}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -1,15 +1,21 @@
 package com.programming.frontendorchestration.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.programming.frontendorchestration.model.CartRequest;
 import com.programming.frontendorchestration.model.Product;
 import com.programming.frontendorchestration.service.CartService;
 
@@ -21,13 +27,46 @@ public class CartController {
     private CartService cartService;
 	
     @PostMapping("/add")
-    public ResponseEntity<?> addToCart(@RequestBody Product product) {
-        
-        return cartService.addToCart(product);
+    public ResponseEntity<?> addToCart(@RequestHeader("Authorization") String sToken,@RequestBody CartRequest req) {
+    	if (sToken != null && sToken.startsWith("Bearer ")) {
+            String token = sToken.substring(7);
+
+            return cartService.addToCart(token,req);
+        } else {
+            return ResponseEntity.status(401).body("Invalid Authorization header");
+        }
     }
 
     @GetMapping
-    public List<Product> getCartItems() {
-        return cartService.getCartItems();
+    public List<Product> getCartItems(@RequestHeader("Authorization") String sToken) {
+    	if (sToken != null && sToken.startsWith("Bearer ")) {
+            String token = sToken.substring(7);
+
+            return cartService.getCartItems(token);
+        } else {
+            return new ArrayList<Product>();
+        } 
+    }
+    
+    @PutMapping("/update-quantity")
+    public ResponseEntity<?> updateQuantity(@RequestHeader("Authorization") String sToken,@RequestBody CartRequest req) {
+    	if (sToken != null && sToken.startsWith("Bearer ")) {
+            String token = sToken.substring(7);
+
+            return cartService.updateQuantity(token,req);
+        } else {
+            return ResponseEntity.status(401).body("Invalid Authorization header");
+        }
+    }
+    
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> deleteItem(@RequestHeader("Authorization") String sToken,@RequestParam int categoryId, @RequestParam int productId) {
+    	if (sToken != null && sToken.startsWith("Bearer ")) {
+            String token = sToken.substring(7);
+
+            return cartService.deleteItem(token,categoryId,productId);
+        } else {
+            return ResponseEntity.status(401).body("Invalid Authorization header");
+        }
     }
 }

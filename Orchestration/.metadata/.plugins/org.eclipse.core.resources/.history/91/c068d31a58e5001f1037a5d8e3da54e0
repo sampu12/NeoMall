@@ -1,0 +1,23 @@
+package com.programming.frontendorchestration.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.Product;
+
+@Service
+public class OrderService {
+	
+	@Autowired
+    private RestTemplate restTemplate;
+	private final String ORDER_SERVICE_URL = "http://order-service/order";
+
+	public List<Product> getOrderItems(String token) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,68 +1,80 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
       setErrorMessage('Please fill in both fields.');
-    } else {
-      setErrorMessage('');
-      console.log('Logging in with', email, password);
-      // Simulating login success
-      navigate('/'); // Redirect to Home page after successful login
+      return;
+    }
+    
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('http://localhost:8989/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('sessionToken', data.sessionToken);
+        localStorage.setItem('userName', data.userName);
+        setIsLoggedIn(true);
+
+        // Redirect to the intended page or the homepage
+        const redirectPath = location.state?.from || '/';
+        navigate(redirectPath);
+      } else {
+        setErrorMessage('Invalid credentials.');
+      }
+    } catch (error) {
+      setErrorMessage('Something went wrong. Please try again later.');
+      console.error('Error during login:', error);
     }
   };
 
   return (
-    <div>
-      <header className="text-white text-center py-4 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <h1 className="fw-bold">Virtual Shopping Mall</h1>
-        <p className="lead">Your Ultimate Online Shopping & Social Experience</p>
-      </header>
-
-      <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-        <div className="card p-4 shadow-sm" style={{ width: '350px' }}>
-          <h2 className="text-center">Login</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-              />
-            </div>
-            {errorMessage && <div className="alert alert-danger py-1">{errorMessage}</div>}
-            <button type="submit" className="btn btn-primary w-100">Login</button>
-          </form>
-          <p className="text-center mt-3">
-            Don't have an account? <Link to="/register">Register Here</Link>
-          </p>
-        </div>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="card p-4 shadow-sm" style={{ width: '350px' }}>
+        <h2 className="text-center">Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
+          </div>
+          {errorMessage && <div className="alert alert-danger py-1">{errorMessage}</div>}
+          <button type="submit" className="btn btn-primary w-100">Login</button>
+        </form>
+        <p className="text-center mt-3">
+          Don't have an account? <Link to="/register">Register Here</Link>
+        </p>
       </div>
-
-      <footer className="text-white text-center py-3 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <p className="mb-0">&copy; 2025 Virtual Shopping Mall | All Rights Reserved.</p>
-      </footer>
     </div>
   );
 };

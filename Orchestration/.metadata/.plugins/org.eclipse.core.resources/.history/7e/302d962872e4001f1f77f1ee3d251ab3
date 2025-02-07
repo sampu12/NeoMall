@@ -1,0 +1,61 @@
+package com.programming.frontendorchestration.service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.CartItems;
+import com.programming.frontendorchestration.model.CartRequest;
+import com.programming.frontendorchestration.model.Product;
+
+@Service
+public class CartService {
+
+	@Autowired
+	private RestTemplate restTemplate;
+	private final String User_SERVICE_URL = "http://user-service/auth";
+	private final String CART_SERVICE_URL = "http://cart-service/cart";
+	private final String PRODUCT_SERVICE_URL = "http://product-service/product";
+
+	public ResponseEntity<?> addToCart(String token,CartRequest req) {
+		String url = CART_SERVICE_URL + "/add";
+		CartRequest cartRes = restTemplate.getForObject(User_SERVICE_URL + "/validate?token=" + token,CartRequest.class);
+		req.setUserId(cartRes.getUserId());
+		return restTemplate.postForEntity(url, req, String.class);
+	}
+
+	public List<Product> getCartItems(String token) {
+		try { 
+			CartRequest cartRes = restTemplate.getForObject(User_SERVICE_URL + "/validate?token=" + token,CartRequest.class);
+			CartItems[] items = restTemplate.getForObject(CART_SERVICE_URL+"/"+cartRes.getUserId(), CartItems[].class);
+			List<Product> products = new ArrayList<Product>();
+			if (items != null) {
+				for (CartItems item : items) {
+					Product product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/get/"
+							+ item.getProductId().getCategoryId() + "/" + item.getProductId().getProductId(),
+							Product.class);
+					product.setQuantity(item.getQuantity());
+					products.add(product);
+				}
+			}
+			return products;
+		} catch (RestClientException e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	public ResponseEntity<?> updateQuantity(String token, CartRequest req) {
+		String url = CART_SERVICE_URL + "/update-quantity";
+		CartRequest cartRes = restTemplate.getForObject(User_SERVICE_URL + "/validate?token=" + token,CartRequest.class);
+		req.setUserId(cartRes.getUserId());
+		return restTemplate.postForEntity(url, req, String.class);
+	}
+
+}

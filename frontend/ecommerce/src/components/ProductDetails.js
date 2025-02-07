@@ -1,53 +1,101 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-
-const products = [
-  { id: 1, name: "Wireless Headphones", price: "$99.99", img: "https://via.placeholder.com/200", description: "High-quality wireless headphones with noise-canceling feature." },
-  { id: 2, name: "Smartphone Case", price: "$19.99", img: "https://via.placeholder.com/200", description: "Durable and stylish smartphone case with a sleek design." },
-  { id: 3, name: "Smartwatch", price: "$149.99", img: "https://via.placeholder.com/200", description: "Track your fitness goals with this modern smartwatch." },
-  { id: 4, name: "Laptop Bag", price: "$39.99", img: "https://via.placeholder.com/200", description: "Spacious and stylish laptop bag with multiple compartments." }
-];
+import React, { useEffect, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 const ProductDetails = () => {
-  const { id } = useParams();
-  const product = products.find(product => product.id === parseInt(id));
+  const { categoryId, productId } = useParams();
+  const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:8989/products/${categoryId}/${productId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Product not found');
+        }
+        return response.json();
+      })
+      .then(data => setProduct(data))
+      .catch(error => setError(error.message));
+  }, [categoryId, productId]);
+
+  const handleAddToCart = () => {
+    const sessionToken = localStorage.getItem('sessionToken');
+
+    if (!sessionToken) {
+      alert('Please log in to add products to your cart.');
+      navigate('/login', { state: { from: `/products/${categoryId}/${productId}` } });
+    } else {
+      fetch('http://localhost:8989/cart/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionToken}`,
+        },
+        body: JSON.stringify({
+          productId: {
+            productId: productId,
+            categoryId: categoryId
+          },
+          quantity: 1,
+        }),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to add product to cart');
+          }
+          return response.json();
+        })
+        .then(() => {
+          alert(`${product.name} has been successfully added to your cart.`);
+        })
+        .catch(error => {
+          alert(`Error: ${error.message}`);
+        });
+    }
+  };
+
+  if (error) {
+    return (
+      <div className="container mt-5 text-center">
+        <p className="text-danger fw-bold">{error}</p>
+        <Link to="/products" className="btn btn-secondary">Back to Products</Link>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return <p className="text-center mt-5">Loading product details...</p>;
+  }
 
   return (
-    <div>
-      {/* Header */}
-      <header className="text-white text-center py-4 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-      <h1 className="fw-bold">Virtual Shopping Mall</h1>
-      <p className="lead">Your Ultimate Online Shopping & Social Experience</p>
-      </header>
-
-      {/* Navigation Bar */}
-      <nav className="bg-dark py-2 shadow-sm text-center">
-        <Link to="/" className="text-white mx-3 fw-semibold">Home</Link>
-        <Link to="/products" className="text-white mx-3 fw-semibold">Products</Link>
-        <Link to="/cart" className="text-white mx-3 fw-semibold">Cart</Link>
-        <Link to="/social-feed" className="text-white mx-3 fw-semibold">Social Feed</Link>
-      </nav>
-
-      {/* Product Details */}
-      <div className="container mt-5">
+    <div className="container mt-5">
+      <div className="card border-0 shadow-lg p-4">
         <div className="row">
           <div className="col-md-6">
-            <img src={product.img} className="img-fluid" alt={product.name} />
+            <img 
+              src={`/images/${product.image}`} 
+              className="img-fluid rounded shadow-sm" 
+              style={{ maxWidth: '100%', maxHeight: '350px', objectFit: 'contain' }}
+              alt={product.name} 
+            />
           </div>
-          <div className="col-md-6">
-            <h2 className="fw-bold">{product.name}</h2>
-            <p className="text-muted">{product.price}</p>
-            <p>{product.description}</p>
-            <button className="btn btn-primary btn-sm">Add to Cart</button>
+          <div className="col-md-6 d-flex flex-column justify-content-center">
+            <h2 className="fw-bold mb-3">{product.name}</h2>
+            <p className="fs-5 text-muted">Price: <span className="text-dark fw-bold">${product.price.toFixed(2)}</span></p>
+            <p className="text-muted">{product.description}</p>
+            <button 
+              className="btn btn-primary btn-lg mt-3 w-100 shadow-sm" 
+              onClick={handleAddToCart}
+            >
+              🛒 Add to Cart
+            </button>
+            <Link to="/products" className="btn btn-outline-secondary btn-sm mt-3 w-100">
+              ⬅ Back to Products
+            </Link>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="text-white text-center py-3 mt-5 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <p className="mb-0">&copy; 2025 Virtual Shopping Mall | All Rights Reserved.</p>
-      </footer>
     </div>
   );
 };

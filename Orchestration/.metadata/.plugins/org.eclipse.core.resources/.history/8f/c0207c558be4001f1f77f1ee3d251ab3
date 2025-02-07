@@ -1,0 +1,37 @@
+package com.programming.frontendorchestration.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.Auth;
+import com.programming.frontendorchestration.model.CartRequest;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+@Service
+public class AuthService {
+	@Autowired
+    private RestTemplate restTemplate;
+    
+    private final String User_SERVICE_URL = "http://user-service/auth";
+    
+    public ResponseEntity<?> loginUser(Auth auth) {
+        String url = User_SERVICE_URL + "/login";
+        return restTemplate.postForEntity(url, auth, String.class);
+    }
+
+	public ResponseEntity<?> logoutUser(HttpServletRequest request) {
+		String url = User_SERVICE_URL + "/logout";
+        
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            restTemplate.getForObject(User_SERVICE_URL + "/logout?token=" + token,CartRequest.class);
+            return ResponseEntity.ok("Logged out successfully");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+	}
+}

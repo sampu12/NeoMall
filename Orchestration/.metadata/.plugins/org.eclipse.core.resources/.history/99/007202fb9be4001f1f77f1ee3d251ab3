@@ -1,0 +1,19 @@
+package com.programming.frontendorchestration.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.programming.frontendorchestration.model.Category;
+import com.programming.frontendorchestration.service.CategoryService;
+
+public class CategoryController {
+	@Autowired
+	private CategoryService categoryService;
+	
+	@GetMapping
+	public List<Category> getCategories() {
+		return categoryService.getCategories();
+	}
+}

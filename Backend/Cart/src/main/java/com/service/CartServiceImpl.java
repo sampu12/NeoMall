@@ -1,92 +1,111 @@
 package com.service;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.model.Cart;
+import com.model.CartRequest;
 import com.model.Product;
+import com.model.ProductId;
 import com.repo.CartRepository;
 
 @Service
 public class CartServiceImpl implements CartService {
-   
-    @Autowired
-    private CartRepository cartRepository;
-    
-    @Autowired
-    private RestTemplate restTemplate;
 
-    private static final String PRODUCT_SERVICE_URL = "http://product-service/api/product/";
+	@Autowired
+	private CartRepository cartRepository;
 
-    @Override
-    public Cart addItemToCart(Cart cart) {
-        Cart existingCart = cartRepository.findByUserId(cart.getUserId());
-        if (existingCart == null) {
-            existingCart = new Cart();
-            existingCart.setUserId(cart.getUserId());
-        }
+	@Override
+	@Transactional
+	public Cart addItemToCart(CartRequest cartRequest) {
+		Cart existingCart = cartRepository.findById(cartRequest.getUserId()).orElse(new Cart());
+		existingCart.setUserId(cartRequest.getUserId());
 
-        for (Product product : cart.getProducts()) {
-            // Fetch product details from Product Microservice
-            Product productDetails;
-            try {
-                productDetails = restTemplate.getForObject(PRODUCT_SERVICE_URL + product.getId(), Product.class);
-            } catch (Exception e) {
-                throw new RuntimeException("Error fetching product details for product ID: " + product.getId(), e);
-            }
+		List<Product> productList = existingCart.getProducts();
+		if (productList == null) {
+			productList = new ArrayList<>();
+		}
 
-            if (productDetails != null) {
-                product.setName(productDetails.getName());
-                product.setDescription(productDetails.getDescription());
-                product.setPrice(productDetails.getPrice());
+		ProductId productId = cartRequest.getProductId();
 
-                // Add or update the product in the cart
-                existingCart.getProducts().removeIf(p -> p.getId().equals(product.getId()));
-                existingCart.getProducts().add(product);
-            } else {
-                throw new RuntimeException("Product not found in Product Service");
-            }
-        }
+		// Check if product already exists in the cart
+		boolean productExists = productList.stream().anyMatch(product -> product.getProductId().equals(productId));
 
-        return cartRepository.save(existingCart);
-    }
+		if (productExists) {
+			productList.forEach(product -> {
+				if (product.getProductId().equals(productId)) {
+					product.setQuantity(product.getQuantity() + cartRequest.getQuantity());
+				}
+			});
+		} else {
+			Product newProduct = new Product();
+			newProduct.setProductId(productId);
+			newProduct.setQuantity(cartRequest.getQuantity());
+			productList.add(newProduct);
+		}
 
-    @Override
-    public Cart removeItemFromCart(int userId, String productId) {
-        Cart cart = cartRepository.findByUserId(userId);
-        if (cart == null) {
-            throw new RuntimeException("Cart not found for user: " + userId);
-        }
+		existingCart.setProducts(productList);
+		return cartRepository.save(existingCart);
+	}
 
-        cart.getProducts().removeIf(product -> product.getId().equals(productId));
-        return cartRepository.save(cart);
-    }
+	@Override
+	public Cart removeItemFromCart(int userId, ProductId productId) {
+		Cart cart = cartRepository.findById(userId).orElse(null);
+		if (cart == null) {
+			throw new RuntimeException("Cart not found for user: " + userId);
+		}
 
-    @Override
-    public Cart updateItemQuantity(int userId, String productId, int quantity) {
-        Cart cart = cartRepository.findByUserId(userId);
-        if (cart == null) {
-            throw new RuntimeException("Cart not found for user: " + userId);
-        }
+		cart.getProducts().removeIf(product -> product.getProductId().equals(productId));
+		return cartRepository.save(cart);
+	}
 
-        for (Product product : cart.getProducts()) {
-            if (product.getId().equals(productId)) {
-                product.setQuantity(quantity);
-                break;
-            }
-        }
+	@Override
+	public Cart updateItemQuantity(CartRequest cartRequest) {
+		Cart cart = cartRepository.findById(cartRequest.getUserId()).orElse(null);
+		if (cart == null) {
+			throw new RuntimeException("Cart not found for user: " + cartRequest.getUserId());
+		}
 
-        return cartRepository.save(cart);
-    }
+		for (Product product : cart.getProducts()) {
+			if (product.getProductId().equals(cartRequest.getProductId())) {
+				product.setQuantity(cartRequest.getQuantity());
+				break;
+			}
+		}
 
-    @Override
-    public Cart getCartDetails(int userId) {
-        Cart cart = cartRepository.findByUserId(userId);
-        if (cart == null) {
-            throw new RuntimeException("Cart not found for user: " + userId);
-        }
-        return cart;
-    }
+		return cartRepository.save(cart);
+	}
+
+	@Override
+	public List<Product> getCartItems(int userId) {
+		Cart cart = cartRepository.findById(userId).orElse(null);
+		if (cart == null) {
+			throw new RuntimeException("Cart not found for user: " + userId);
+		}
+		return cart.getProducts();
+	}
+
+	@Override
+	@Transactional
+	public String removeCart(int userId) {
+	    Cart cart = cartRepository.findById(userId).orElse(null);
+	    if (cart == null) {
+	        throw new RuntimeException("Cart not found for user: " + userId);
+	    }
+
+	    // Clear products to ensure they are removed from the relationship
+	    cart.getProducts().clear();
+
+	    // Delete the cart from the repository
+	    cartRepository.delete(cart);
+
+	    return "Cart successfully removed for user: " + userId;
+	}
+
+
+
 }

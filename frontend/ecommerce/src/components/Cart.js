@@ -1,72 +1,164 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Table, Button, Image, Container, Row, Col, Alert } from 'react-bootstrap';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:8989/cart')
-      .then(response => response.json())
+    const sessionToken = localStorage.getItem('sessionToken');
+    if (!sessionToken) {
+      navigate('/login');
+      return;
+    }
+
+    fetch('http://localhost:8989/cart', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          navigate('/login');
+          return;
+        }
+        return response.json();
+      })
       .then(data => setCartItems(data))
       .catch(error => console.error('Error fetching cart items:', error));
-  }, []);
-  const navigate = useNavigate(); // Get navigate function
+  }, [navigate]);
+
+  const updateItemQuantity = (itemId, newQuantity) => {
+    if (newQuantity < 1) return;
+
+    const sessionToken = localStorage.getItem('sessionToken');
+    fetch(`http://localhost:8989/cart/update-quantity`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionToken}`,
+      },
+      body: JSON.stringify({ productId: itemId, quantity: newQuantity }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update product quantity');
+        }
+        return response.text();
+      })
+      .then(() => {
+        setCartItems(prevItems =>
+          prevItems.map(item =>
+            item.productId === itemId ? { ...item, quantity: newQuantity } : item
+          )
+        );
+      })
+      .catch(error => console.error('Error updating quantity:', error));
+  };
+
+  const handleDeleteItem = itemId => {
+    const sessionToken = localStorage.getItem('sessionToken');
+    fetch(`http://localhost:8989/cart/remove?categoryId=${itemId.categoryId}&productId=${itemId.productId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    })
+      .then(() => {
+        setCartItems(prevItems => prevItems.filter(item => item.productId !== itemId));
+      })
+      .catch(error => console.error('Error deleting item:', error));
+  };
 
   const handlePaymentClick = () => {
-    navigate('/payment'); // Navigate to the Payment component
+    navigate('/payment');
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
   };
 
   return (
-    <div>
-      {/* Header */}
-      <header className="text-white text-center py-4 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <h1 className="fw-bold">Virtual Shopping Mall</h1>
-        <p className="lead">Your Ultimate Online Shopping & Social Experience</p>
-      </header>
-
-      {/* Navigation Bar */}
-      <nav className="bg-dark py-2 shadow-sm text-center">
-        <Link to="/" className="text-white mx-3 fw-semibold">Home</Link>
-        <Link to="/products" className="text-white mx-3 fw-semibold">Products</Link>
-        <Link to="/cart" className="text-warning mx-3 fw-semibold">Cart</Link>
-        <Link to="/social-feed" className="text-white mx-3 fw-semibold">Social Feed</Link>
-      </nav>
-
-      {/* Cart Content */}
-      <div className="container mt-5">
-        <h2 className="fw-bold text-dark text-center">Items in Your Cart</h2>
-        <table className="table mt-4">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map(item => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.quantity}</td>
-                <td>${item.price.toFixed(2)}</td>
-                <td>${(item.price * item.quantity).toFixed(2)}</td>
+    <Container className="mt-5">
+      <h2 className="text-center fw-bold text-dark">Your Shopping Cart</h2>
+      {cartItems.length === 0 ? (
+        <Alert variant="warning" className="text-center mt-4">
+          Your cart is empty.
+        </Alert>
+      ) : (
+        <>
+          <Table responsive bordered hover className="mt-4">
+            <thead className="table-dark">
+              <tr>
+                <th>Product</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {cartItems.map(item => (
+                <tr key={item.productId.categoryId + "-" + item.productId.productId}>
+                  <td className="align-middle">{item.name}</td>
+                  <td className="align-middle">
+                    <Image src={`/images/${item.image}`} height="60" width="60" alt={item.name} fluid />
+                  </td>
+                  <td className="align-middle">
+                    <Row className="align-items-center">
+                      <Col xs="auto">
+                        <Button
+                          variant="light"
+                          size="sm"
+                          onClick={() => updateItemQuantity(item.productId, item.quantity - 1)}
+                        >
+                          -
+                        </Button>
+                      </Col>
+                      <Col xs="auto">
+                        <span className="fw-bold">{item.quantity}</span>
+                      </Col>
+                      <Col xs="auto">
+                        <Button
+                          variant="light"
+                          size="sm"
+                          onClick={() => updateItemQuantity(item.productId, item.quantity + 1)}
+                        >
+                          +
+                        </Button>
+                      </Col>
+                    </Row>
+                  </td>
+                  <td className="align-middle">${item.price.toFixed(2)}</td>
+                  <td className="align-middle">${(item.price * item.quantity).toFixed(2)}</td>
+                  <td className="align-middle">
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => handleDeleteItem(item.productId)}
+                    >
+                      Remove
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
 
-        {/* Pay Button */}
-        <div className="text-center mt-4">
-          <button className="btn btn-success" onClick={handlePaymentClick}>Place Order</button>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="text-white text-center py-3 mt-5 shadow-lg" style={{ background: 'linear-gradient(90deg, #1e3c72, #2a5298)' }}>
-        <p className="mb-0">&copy; 2025 Virtual Shopping Mall | All Rights Reserved.</p>
-      </footer>
-    </div>
+          <div className="d-flex justify-content-between align-items-center mt-4">
+            <h4 className="fw-bold">Total: ${calculateTotal()}</h4>
+            <Button variant="success" onClick={handlePaymentClick}>
+              Place Order
+            </Button>
+          </div>
+        </>
+      )}
+    </Container>
   );
 };
 

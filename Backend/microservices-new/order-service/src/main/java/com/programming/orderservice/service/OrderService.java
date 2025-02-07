@@ -1,20 +1,21 @@
 package com.programming.orderservice.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.reactive.function.client.WebClient;
 
-import com.programming.orderservice.dto.InventoryResponse;
-import com.programming.orderservice.dto.OrderLineItemsDto;
 import com.programming.orderservice.dto.OrderRequest;
 import com.programming.orderservice.dto.OrderResponse;
+import com.programming.orderservice.dto.ProductDto;
+import com.programming.orderservice.dto.ProductIdDto;
 import com.programming.orderservice.model.Order;
-import com.programming.orderservice.model.OrderLineItems;
+import com.programming.orderservice.model.Product;
+import com.programming.orderservice.model.ProductId;
 import com.programming.orderservice.repository.OrderRepository;
+import com.programming.orderservice.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,54 +24,81 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class OrderService {
 
-	private final OrderRepository orderRepository;
-	private final WebClient.Builder webClientBuilder;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository; 
+    
+    public void placeOrder(OrderRequest orderRequest) {
+        Order order = new Order();
+        order.setUserId(orderRequest.getUserId());
+        order.setOrderNumber(UUID.randomUUID().toString());
 
-	public void placeOrder(OrderRequest orderRequest) {
-		Order order = new Order();
-		order.setOrderNumber(UUID.randomUUID().toString());
+        List<Product> productList = orderRequest.getProductsList()
+                .stream()
+                .map(this::findOrCreateProduct)
+                .toList();
 
-		List<OrderLineItems> orderLineItemsList = orderRequest.getOrderLineItemsDtoList()
-				.stream()
-				.map(this::mapToDto)
-				.toList();
-		order.setOrderLineItemsList(orderLineItemsList);
-		
-		List<String> skuCodes = order.getOrderLineItemsList().stream()
-				.map(OrderLineItems::getSkucode).toList();
+        order.setProductsList(productList);
+        orderRepository.save(order);
+    }
 
-		InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
-				.uri("http://inventory-service/api/inventory",
-				uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
-				.retrieve()
-				.bodyToMono(InventoryResponse[].class)
-				.block();
-		
-		boolean allProductsInstock = Arrays.stream(inventoryResponseArray).allMatch(InventoryResponse::isInStock);
-		
-		if(allProductsInstock) {
-			orderRepository.save(order);
-		}else {
-			throw new IllegalArgumentException("Product is not in srock, please try again later");
-		}
-		
+    private Product findOrCreateProduct(ProductDto productDto) {
+        ProductId productId = new ProductId(productDto.getProductId().getProductId(), 
+                                            productDto.getProductId().getCategoryId());
 
-	}
+        return productRepository.findById(productId).orElseGet(() -> mapToEntity(productDto));
+    }
 
-	private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
-		OrderLineItems orderLineItems = new OrderLineItems();
-		orderLineItems.setPrice(orderLineItemsDto.getPrice());
-		orderLineItems.setQuantity(orderLineItemsDto.getQuantity());
-		orderLineItems.setSkucode(orderLineItemsDto.getSkucode());
-		return orderLineItems;
-	}
+    private Product mapToEntity(ProductDto productDto) {
+        Product product = new Product();
+        ProductId productId = new ProductId(productDto.getProductId().getProductId(),
+                                             productDto.getProductId().getCategoryId());
+        product.setProductId(productId);
+        product.setName(productDto.getName());
+        product.setImage(productDto.getImage());
+        product.setQuantity(productDto.getQuantity());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        return product;
+    }
 
-	public List<OrderResponse> getAllOrders() {
-		/*
-		 * List<Order> orders = orderRepository.findAll(); return
-		 * orders.stream().map(this::mapTO);
-		 */
-		return null;
-	}
+    public List<OrderResponse> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream()
+                .map(this::mapToOrderResponse)
+                .collect(Collectors.toList());
+    }
 
+    private OrderResponse mapToOrderResponse(Order order) {
+        List<ProductDto> productDtoList = order.getProductsList()
+                .stream()
+                .map(this::mapToDto)
+                .toList();
+
+        return OrderResponse.builder()
+                .userId(order.getUserId())
+                .orderNumber(order.getOrderNumber())
+                .productDtoList(productDtoList)
+                .build();
+    }
+
+    private ProductDto mapToDto(Product product) {
+        ProductId productId = product.getProductId();
+        ProductIdDto productIdDto = new ProductIdDto(productId.getProductId(), productId.getCategoryId());
+
+        return new ProductDto(
+                productIdDto,
+                product.getName(),
+                product.getImage(),
+                product.getQuantity(),
+                product.getDescription(),
+                product.getPrice()
+        );
+    }
+
+    public List<ProductDto> getAllProductsByUserId(Long userId) {
+        return orderRepository.findByUserId(userId).stream()
+                .flatMap(order -> order.getProductsList().stream())
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
 }

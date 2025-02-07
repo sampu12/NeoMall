@@ -7,6 +7,5 @@ import com.model.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Integer> {
-    Cart findByUserId(int userId); 
 }
 

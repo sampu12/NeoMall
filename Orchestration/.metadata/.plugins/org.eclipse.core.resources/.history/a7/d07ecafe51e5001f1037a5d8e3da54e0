@@ -1,0 +1,86 @@
+package com.programming.frontendorchestration.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.programming.frontendorchestration.model.CartItems;
+import com.programming.frontendorchestration.model.CartRequest;
+import com.programming.frontendorchestration.model.OrderRequest;
+import com.programming.frontendorchestration.model.Payment;
+import com.programming.frontendorchestration.model.PaymentModel;
+import com.programming.frontendorchestration.model.Product;
+import com.programming.frontendorchestration.model.User;
+@Service
+public class PaymentService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    private final String USER_SERVICE_URL = "http://user-service";
+    private final String CART_SERVICE_URL = "http://cart-service/cart";
+    private final String PRODUCT_SERVICE_URL = "http://product-service/product";
+    private final String PAYMENT_SERVICE_URL = "http://payment-service/payment";
+    private final String ORDER_SERVICE_URL = "http://order-service/order";
+
+    public ResponseEntity<?> payUsingDebit(String token, Payment payment) {
+        try {
+            // Validate Token and Fetch Cart Request
+            CartRequest cartRes = restTemplate.getForObject(USER_SERVICE_URL + "/auth/validate?token=" + token, CartRequest.class);
+            if (cartRes == null) {
+                return ResponseEntity.badRequest().body("Invalid token or session expired.");
+            }
+
+            // Get User Details
+            User user = restTemplate.getForObject(USER_SERVICE_URL + "/users/getUserByID/" + cartRes.getUserId(), User.class);
+
+            // Fetch Cart Items
+            CartItems[] items = restTemplate.getForObject(CART_SERVICE_URL + "/" + cartRes.getUserId(), CartItems[].class);
+
+            if (items == null || items.length == 0) {
+                return ResponseEntity.ok("Cart is empty.");
+            }
+
+            List<Product> products = new ArrayList<>();
+            for (CartItems item : items) {
+                Product product = restTemplate.getForObject(PRODUCT_SERVICE_URL + "/get/"
+                        + item.getProductId().getCategoryId() + "/" + item.getProductId().getProductId(), Product.class);
+
+                if (product != null) {
+                    product.setQuantity(item.getQuantity());
+                    products.add(product);
+                } else {
+                    return ResponseEntity.badRequest().body("Invalid product in cart.");
+                }
+            }
+
+            // Create Order and Payment Model
+            OrderRequest orderRequest = new OrderRequest(cartRes.getUserId(), products);
+
+            PaymentModel paymentModel = new PaymentModel();
+            paymentModel.setUserId(cartRes.getUserId());
+			paymentModel.setCardNo(payment.getCardDetails().getCardNumber());
+			paymentModel.setExpiryDate(payment.getCardDetails().getExpiryDate());
+			paymentModel.setCvvNo(payment.getCardDetails().getCvv());
+
+            // Process Payment
+            restTemplate.postForEntity(PAYMENT_SERVICE_URL + "/payWithDebit", paymentModel, String.class);
+
+            // Delete Cart
+            restTemplate.delete(CART_SERVICE_URL + "/delete/" + cartRes.getUserId());
+
+            // Create Order
+            return restTemplate.postForEntity(ORDER_SERVICE_URL, orderRequest, String.class);
+
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred during payment processing.");
+        }
+    }
+}
+

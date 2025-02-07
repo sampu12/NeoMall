@@ -1,0 +1,10 @@
+package com.programming.frontendorchestration.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.programming.frontendorchestration.service.CategoryService;
+
+public class CategoryController {
+	@Autowired
+	private CategoryService categoryService;
+}
