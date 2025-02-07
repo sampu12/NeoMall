@@ -101,4 +101,13 @@ public class OrderService {
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
+    
+    public List<OrderResponse> searchOrders(String query) {
+        List<Order> orders = orderRepository.findByOrderNumberContaining(query);
+
+        return orders.stream()
+                .map(this::mapToOrderResponse)  // Using the existing mapping function
+                .distinct()  // Remove duplicates
+                .collect(Collectors.toList());
+    }
 }

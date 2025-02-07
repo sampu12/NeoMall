@@ -448,6 +448,8 @@ namespace AdminService.Controllers
         // View Orders
         public async Task<IActionResult> ViewOrdersAsync()
         {
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+                return RedirectToAction("Login");
             List<OrderResponse> orders = new List<OrderResponse>();
 
             try
@@ -481,6 +483,8 @@ namespace AdminService.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchOrder(string query)
         {
+            if (HttpContext.Session.GetString("AdminUsername") == null)
+                return RedirectToAction("Login");
             Console.WriteLine($"🔍 Searching for: {query}");
 
             string apiUrl = $"http://localhost:8081/order/search?query={query}";
