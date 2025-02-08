@@ -15,6 +15,7 @@ namespace AdminService.Models
 
         [Required(ErrorMessage = "Image URL is required.")]
         [StringLength(100, ErrorMessage = "Product Image URL cannot exceed 100 characters.")]
+        [RegularExpression(@"(?i).*\.jpg$", ErrorMessage = "The image URL must end with .jpg.")]
         public string image { get; set; } // Image URL
 
         [StringLength(500, ErrorMessage = "Description cannot exceed 500 characters.")]

@@ -9,6 +9,7 @@ using AdminService.Models;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Reflection;
+using System.Net;  // Needed for HttpStatusCode
 
 namespace AdminService.Controllers
 {
@@ -89,55 +90,6 @@ namespace AdminService.Controllers
 
             ViewBag.Error = "Failed to fetch users.";
             return View(new List<User>());
-        }
-
-
-        // Add User
-        public IActionResult AddUser() {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-                return RedirectToAction("Login");
-            return View();
-         }
-
-        [HttpPost]
-        public async Task<IActionResult> AddUser(User user)
-        {
-            if (HttpContext.Session.GetString("AdminUsername") == null)
-                return RedirectToAction("Login");
-
-            if (!ModelState.IsValid)  // Check if the model is valid
-            {
-                return View(user);  // Return the view with validation errors
-            }
-
-            try
-            {
-
-                var json = JsonConvert.SerializeObject(user);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                Console.WriteLine(json);
-
-                // Send data to Java microservice
-                var response = await _httpClient.PostAsync("http://localhost:3000/users/newUser", content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["Success"] = "User added successfully!";
-                    return RedirectToAction("UserManagement");
-                }
-                else
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    ViewBag.Error = $"Failed to add user. Error: {errorMessage}";
-                    return View(user);
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = $"An error occurred: {ex.Message}";
-                return View(user);
-            }
         }
 
         // Search User
@@ -308,9 +260,9 @@ namespace AdminService.Controllers
             if (HttpContext.Session.GetString("AdminUsername") == null)
                 return RedirectToAction("Login");
 
-            if (!ModelState.IsValid)  // Check if the model is valid
+            if (!ModelState.IsValid)
             {
-                return View(product);  // Return the view with validation errors
+                return View(product);
             }
 
             var json = JsonConvert.SerializeObject(product);
@@ -318,9 +270,20 @@ namespace AdminService.Controllers
             var response = await _httpClient.PostAsync("http://localhost:8083/product/create", content);
 
             if (response.IsSuccessStatusCode)
+            {
                 return RedirectToAction("ProductManagement");
+            }
+            else if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                // Duplicate primary key detected
+                ViewBag.Error = "A product with the same primary key already exists.";
+            }
+            else
+            {
+                ViewBag.Error = "Failed to add product. Please try again.";
+            }
 
-            ViewBag.Error = "Failed to add product.";
+            // Return the view with the error message.
             return View(product);
         }
 

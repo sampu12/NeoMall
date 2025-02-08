@@ -3,22 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\productmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\productmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\usermanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\usermanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,8 +11,28 @@
       "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\vieworders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\vieworders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\editproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\productmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\productmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\usermanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\views\\admin\\usermanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\views\\admin\\vieworderdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -53,10 +57,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\models\\productid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\models\\productid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|solutionrelative:adminservice\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5892D2D7-0D54-426D-BA14-EF120B519711}|AdminService\\AdminService.csproj|c:\\users\\yadny\\onedrive\\desktop\\myproject\\neomall\\adminservice\\adminservice\\models\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -122,23 +122,102 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
+              "Title": "AddProduct.cshtml",
+              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\AddProduct.cshtml",
+              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\AddProduct.cshtml",
+              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\AddProduct.cshtml",
+              "RelativeToolTip": "AdminService\\Views\\Admin\\AddProduct.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-04T04:05:37.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "AdminService\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\Product.cs",
+              "RelativeToolTip": "AdminService\\Models\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-05T10:43:51.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "AdminService\\Controllers\\AdminController.cs",
               "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Controllers\\AdminController.cs",
               "RelativeToolTip": "AdminService\\Controllers\\AdminController.cs",
-              "ViewState": "AgIAAC8BAAAAAAAAAAAAADgBAABQAAAAAAAAAA==",
+              "ViewState": "AgIAAPMAAAAAAAAAAAAAAPoAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T22:25:37.51Z"
+              "WhenOpened": "2025-02-07T22:25:37.51Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
+              "Title": "ViewOrders.cshtml",
+              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ViewOrders.cshtml",
+              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\ViewOrders.cshtml",
+              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ViewOrders.cshtml",
+              "RelativeToolTip": "AdminService\\Views\\Admin\\ViewOrders.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-04T11:18:00.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductManagement.cshtml",
+              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ProductManagement.cshtml",
+              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\ProductManagement.cshtml",
+              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ProductManagement.cshtml",
+              "RelativeToolTip": "AdminService\\Views\\Admin\\ProductManagement.cshtml",
+              "ViewState": "AgIAAKEAAAAAAAAAAAAgwLwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-04T18:16:30.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "AdminService\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "AdminService\\Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwCUAAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-04T12:10:48.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EditProduct.cshtml",
+              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\EditProduct.cshtml",
+              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\EditProduct.cshtml",
+              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\EditProduct.cshtml",
+              "RelativeToolTip": "AdminService\\Views\\Admin\\EditProduct.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-07T10:40:33.076Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "UserManagement.cshtml",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\UserManagement.cshtml",
               "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\UserManagement.cshtml",
@@ -150,68 +229,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ViewOrders.cshtml",
-              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ViewOrders.cshtml",
-              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\ViewOrders.cshtml",
-              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ViewOrders.cshtml",
-              "RelativeToolTip": "AdminService\\Views\\Admin\\ViewOrders.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-04T11:18:00.125Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductManagement.cshtml",
-              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ProductManagement.cshtml",
-              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\ProductManagement.cshtml",
-              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ProductManagement.cshtml",
-              "RelativeToolTip": "AdminService\\Views\\Admin\\ProductManagement.cshtml",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAgwLwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-04T18:16:30.701Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "_AdminLayout.cshtml",
-              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeDocumentMoniker": "AdminService\\Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeToolTip": "AdminService\\Views\\Shared\\_AdminLayout.cshtml",
-              "ViewState": "AgIAABkAAAAAAAAAAAAgwDAAAABUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-04T12:10:48.527Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AddProduct.cshtml",
-              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\AddProduct.cshtml",
-              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\AddProduct.cshtml",
-              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\AddProduct.cshtml",
-              "RelativeToolTip": "AdminService\\Views\\Admin\\AddProduct.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-04T04:05:37.585Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EditProduct.cshtml",
-              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\EditProduct.cshtml",
-              "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\EditProduct.cshtml",
-              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\EditProduct.cshtml",
-              "RelativeToolTip": "AdminService\\Views\\Admin\\EditProduct.cshtml",
-              "ViewState": "AgIAACIAAAAAAAAAAAAgwDEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-07T10:40:33.076Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "EditUser.cshtml",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\EditUser.cshtml",
               "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\EditUser.cshtml",
@@ -223,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "OrderResponse.cs",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\OrderResponse.cs",
               "RelativeDocumentMoniker": "AdminService\\Models\\OrderResponse.cs",
@@ -235,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Order.cs",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\Order.cs",
               "RelativeDocumentMoniker": "AdminService\\Models\\Order.cs",
@@ -247,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "ViewOrderDetails.cshtml",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Views\\Admin\\ViewOrderDetails.cshtml",
               "RelativeDocumentMoniker": "AdminService\\Views\\Admin\\ViewOrderDetails.cshtml",
@@ -259,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\User.cs",
               "RelativeDocumentMoniker": "AdminService\\Models\\User.cs",
@@ -271,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ProductId.cs",
               "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\ProductId.cs",
               "RelativeDocumentMoniker": "AdminService\\Models\\ProductId.cs",
@@ -280,18 +298,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-06T05:39:30.102Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\Product.cs",
-              "RelativeDocumentMoniker": "AdminService\\Models\\Product.cs",
-              "ToolTip": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\Models\\Product.cs",
-              "RelativeToolTip": "AdminService\\Models\\Product.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAAA+wA8AAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-05T10:43:51.387Z"
             },
             {
               "$type": "Document",

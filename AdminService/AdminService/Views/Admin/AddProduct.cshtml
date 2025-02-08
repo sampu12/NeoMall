@@ -6,6 +6,14 @@
 }
 
 <div class="container mt-5">
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
     <div class="card shadow-lg border-0">
         <div class="card-header bg-primary text-white text-center">
             <h3>Add Product</h3>
@@ -19,15 +27,22 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-bold">Category ID:</label>
-                    <input asp-for="productId.categoryId" class="form-control" />
-                    <span asp-validation-for="productId.categoryId" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
                     <label class="form-label fw-bold">Product Name:</label>
                     <input asp-for="name" class="form-control" />
                     <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category:</label>
+                    <select asp-for="productId.categoryId" class="form-select">
+                        <option value="">-- Select a Category --</option>
+                        <option value="1">Furniture</option>
+                        <option value="2">Electronics</option>
+                        <option value="3">Clothing</option>
+                        <option value="4">Home Appliances</option>
+                        <option value="5">Sports</option>
+                    </select>
+                    <span asp-validation-for="productId.categoryId" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
