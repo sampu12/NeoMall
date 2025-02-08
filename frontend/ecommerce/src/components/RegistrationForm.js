@@ -11,8 +11,32 @@ const RegistrationForm = () => {
 
   // Use an object to hold errors for each field
   const [errorMessage, setErrorMessage] = useState({});
-
   const navigate = useNavigate();
+
+  // Helper function to get dynamic password warnings.
+  const getPasswordWarnings = (password) => {
+    const warnings = [];
+    if (password.length > 0) {
+      if (password.length < 8) {
+        warnings.push("At least 8 characters");
+      } else if (password.length > 20) {
+        warnings.push("No more than 20 characters");
+      }
+      if (!/[A-Z]/.test(password)) {
+        warnings.push("1 uppercase letter");
+      }
+      if (!/[a-z]/.test(password)) {
+        warnings.push("1 lowercase letter");
+      }
+      if (!/\d/.test(password)) {
+        warnings.push("1 number");
+      }
+      if (!/[\W_]/.test(password)) {
+        warnings.push("1 special character");
+      }
+    }
+    return warnings;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,8 +103,7 @@ const RegistrationForm = () => {
       errors.password = 'Password is required.';
       valid = false;
     } else if (!passwordRegex.test(formData.password)) {
-      errors.password =
-        'Password must be 8-20 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.';
+      errors.password = 'Password does not meet the requirements.';
       valid = false;
     }
 
@@ -124,6 +147,8 @@ const RegistrationForm = () => {
       }
     }
   };
+
+  const passwordWarnings = getPasswordWarnings(formData.password);
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
@@ -173,6 +198,12 @@ const RegistrationForm = () => {
               onChange={handleChange}
               placeholder="Enter a strong password"
             />
+            {/* Always display dynamic warning messages based on missing conditions */}
+            {passwordWarnings.length > 0 && (
+              <div className="alert alert-warning py-1" style={{ fontSize: '0.8rem' }}>
+                {passwordWarnings.join(', ')}
+              </div>
+            )}
             {errorMessage.password && (
               <div className="alert alert-danger py-1">{errorMessage.password}</div>
             )}

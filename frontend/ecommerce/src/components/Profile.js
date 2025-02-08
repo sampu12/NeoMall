@@ -7,6 +7,7 @@ const Profile = () => {
   
   const [mobileInput, setMobileInput] = useState('');
   const [editMobile, setEditMobile] = useState(false);
+  const [mobileError, setMobileError] = useState('');
 
   const [addresses, setAddresses] = useState([]);
   const [editingAddressIndex, setEditingAddressIndex] = useState(null);
@@ -65,9 +66,15 @@ const Profile = () => {
       })
       .catch(err => alert(err.message));
   };
-  
+
   const handleMobileSubmit = (e) => {
     e.preventDefault();
+    // Validate Indian mobile number: 10 digits starting with 6,7,8,9.
+    const mobileRegex = /^[6-9]\d{9}$/;
+    if (!mobileRegex.test(mobileInput.trim())) {
+      setMobileError('Please enter a valid Indian mobile number (10 digits, starting with 6-9).');
+      return;
+    }
     const updatedProfile = { ...profile, mobile_number: mobileInput, addresses };
     handleProfileUpdate(updatedProfile);
     setEditMobile(false);
@@ -142,27 +149,37 @@ const Profile = () => {
           <div className="mb-4">
             <strong>Mobile:</strong>{' '}
             {editMobile ? (
-              <form onSubmit={handleMobileSubmit} className="d-flex align-items-center">
+              <form onSubmit={handleMobileSubmit} className="d-flex flex-column align-items-start">
                 <input
                   type="text"
-                  className="form-control me-2"
+                  className="form-control mb-2"
                   value={mobileInput}
-                  onChange={(e) => setMobileInput(e.target.value)}
+                  onChange={(e) => {
+                    setMobileInput(e.target.value);
+                    setMobileError('');
+                  }}
                   placeholder="Enter new mobile number"
                 />
-                <button type="submit" className="btn btn-success btn-sm">Save</button>
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm ms-2"
-                  onClick={() => setEditMobile(false)}
-                >
-                  Cancel
-                </button>
+                {mobileError && (
+                  <div className="alert alert-danger py-1" style={{ fontSize: '0.8rem' }}>
+                    {mobileError}
+                  </div>
+                )}
+                <div>
+                  <button type="submit" className="btn btn-success btn-sm me-2">Save</button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm ms-2"
+                    onClick={() => setEditMobile(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </form>
             ) : (
               <>
                 <span>{profile.mobile_number || 'No mobile set'}</span>
-                <button className="btn btn-primary btn-sm" onClick={() => setEditMobile(true)}>
+                <button className="btn btn-primary btn-sm ms-2" onClick={() => setEditMobile(true)}>
                   Edit
                 </button>
               </>

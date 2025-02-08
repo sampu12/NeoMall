@@ -15,7 +15,7 @@ import Payment from './components/Payment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Profile from './components/Profile';
 
-function Navbar({ isLoggedIn, setIsLoggedIn }) {
+function Navbar({ isLoggedIn, setIsLoggedIn, cartCount }) {
   const navigate = useNavigate();
   const userName = localStorage.getItem('userName') || 'User';
 
@@ -33,6 +33,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
       }
       localStorage.removeItem('sessionToken');
       localStorage.removeItem('userName');
+      // Reset cart count when logging out.
+      localStorage.setItem('cartCount', '0');
       setIsLoggedIn(false);
       navigate('/');
     } catch (error) {
@@ -76,7 +78,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
                   to="/cart" 
                   className={({ isActive }) => isActive ? "nav-link text-warning fw-bold" : "nav-link text-white"}
                 >
-                  Cart
+                  🛒 Cart{' '}
+                  <span className="badge bg-danger">{cartCount}</span>
                 </NavLink>
               </li>
             )}
@@ -120,24 +123,49 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Global cart count state
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem('sessionToken');
     setIsLoggedIn(!!token);
+    if (token) {
+      // Fetch the current cart items to initialize the cart count.
+      fetch('http://localhost:8989/cart', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          const count = data.length;
+          setCartCount(count);
+          localStorage.setItem('cartCount', count.toString());
+        })
+        .catch(error => console.error('Error fetching cart count:', error));
+    } else {
+      setCartCount(0);
+      localStorage.setItem('cartCount', '0');
+    }
   }, []);
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} cartCount={cartCount} />
       <Routes>
         <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:categoryId/:productId" element={<ProductDetails />} />
+        <Route 
+          path="/products/:categoryId/:productId" 
+          element={<ProductDetails setCartCount={setCartCount} />} 
+        />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/cart" element={isLoggedIn ? <Cart /> : <Navigate to="/login" />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/cart" element={isLoggedIn ? <Cart setCartCount={setCartCount} /> : <Navigate to="/login" />} />
+        <Route path="/payment" element={<Payment setCartCount={setCartCount} />} />
         <Route path="/social-feed" element={<SocialFeed />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} />

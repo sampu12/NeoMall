@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table, Button, Image, Container, Row, Col, Alert } from 'react-bootstrap';
 
-const Cart = () => {
+const Cart = ({ setCartCount }) => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch cart items on mount
   useEffect(() => {
     const sessionToken = localStorage.getItem('sessionToken');
     if (!sessionToken) {
@@ -17,7 +18,7 @@ const Cart = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionToken}`,
+        'Authorization': `Bearer ${sessionToken}`,
       },
     })
       .then(response => {
@@ -27,19 +28,37 @@ const Cart = () => {
         }
         return response.json();
       })
-      .then(data => setCartItems(data))
+      .then(data => {
+        setCartItems(data);
+        setCartCount(data.length); // Update the global cart count
+      })
       .catch(error => console.error('Error fetching cart items:', error));
-  }, [navigate]);
+  }, [navigate, setCartCount]);
+
+  // Utility function to update the global cart count by re-fetching cart data
+  const updateCartCount = (sessionToken) => {
+    fetch('http://localhost:8989/cart', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionToken}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        setCartCount(data.length);
+      })
+      .catch(error => console.error('Error updating cart count:', error));
+  };
 
   const updateItemQuantity = (itemId, newQuantity) => {
     if (newQuantity < 1) return;
-
     const sessionToken = localStorage.getItem('sessionToken');
     fetch(`http://localhost:8989/cart/update-quantity`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionToken}`,
+        'Authorization': `Bearer ${sessionToken}`,
       },
       body: JSON.stringify({ productId: itemId, quantity: newQuantity }),
     })
@@ -52,9 +71,11 @@ const Cart = () => {
       .then(() => {
         setCartItems(prevItems =>
           prevItems.map(item =>
+            // Ensure proper comparison—if productId is an object, you may need to compare a specific field.
             item.productId === itemId ? { ...item, quantity: newQuantity } : item
           )
         );
+        updateCartCount(sessionToken);
       })
       .catch(error => console.error('Error updating quantity:', error));
   };
@@ -65,11 +86,13 @@ const Cart = () => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionToken}`,
+        'Authorization': `Bearer ${sessionToken}`,
       },
     })
       .then(() => {
         setCartItems(prevItems => prevItems.filter(item => item.productId !== itemId));
+        // Re-fetch cart data to update the global counter
+        updateCartCount(sessionToken);
       })
       .catch(error => console.error('Error deleting item:', error));
   };

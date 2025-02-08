@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 const Products = () => {
@@ -8,7 +8,7 @@ const Products = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const pageSize = 10;
 
   useEffect(() => {
     fetch('http://localhost:8989/products')
@@ -21,56 +21,65 @@ const Products = () => {
 
     fetch('http://localhost:8989/categories')
       .then(response => response.json())
-      .then(data => setCategories(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setCategories(data);
+        } else {
+          setCategories([]);
+        }
+      })
       .catch(error => console.error('Error fetching categories:', error));
   }, []);
 
+  // Wrap filtering logic in useCallback with its dependencies.
+  const applyFilters = useCallback(() => {
+    let filtered = [...products];
+
+    // If a category is selected, convert it to number for proper comparison.
+    if (selectedCategoryId) {
+      const categoryNum = Number(selectedCategoryId);
+      filtered = filtered.filter(product => product.productId.categoryId === categoryNum);
+    }
+
+    // Apply search filter.
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredProducts(filtered);
+    setCurrentPage(1); // Reset pagination when filters change.
+  }, [products, selectedCategoryId, searchQuery]);
+
+  // Call applyFilters whenever the dependencies change.
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
   const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    setCurrentPage(1);
-
-    if (query.trim() === '') {
-      setFilteredProducts(products);
-      return;
-    }
-
-    const searchResults = products.filter(product =>
-      product.name.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredProducts(searchResults);
+    setSearchQuery(e.target.value);
   };
 
-  const handleCategoryChange = (categoryId) => {
-    setSelectedCategoryId(categoryId);
-    setCurrentPage(1);
-
-    if (!categoryId) {
-      setFilteredProducts(products);
-      return;
-    }
-
-    const categoryFilteredProducts = products.filter(
-      product => product.productId.categoryId === categoryId
-    );
-    setFilteredProducts(categoryFilteredProducts);
+  const handleCategoryChange = (e) => {
+    setSelectedCategoryId(e.target.value);
   };
 
-  // Pagination logic
-  const totalItems = filteredProducts.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
+
+  // Paginate the filteredProducts array.
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
   return (
     <div className="container mt-5">
       <h2 className="fw-bold text-dark text-center">Explore Our Products</h2>
-
       <div className="row mt-4">
         <div className="col-md-6">
           <input
@@ -85,7 +94,7 @@ const Products = () => {
           <select
             className="form-select"
             value={selectedCategoryId}
-            onChange={(e) => handleCategoryChange(e.target.value)}
+            onChange={handleCategoryChange}
           >
             <option value="">All Categories</option>
             {categories.map(category => (
@@ -98,8 +107,8 @@ const Products = () => {
       </div>
 
       <div className="row mt-5">
-        {currentItems.length > 0 ? (
-          currentItems.map(product => (
+        {paginatedProducts.length > 0 ? (
+          paginatedProducts.map(product => (
             <div key={`${product.productId.categoryId}-${product.productId.productId}`} className="col-lg-3 col-md-4 col-sm-6 mb-4">
               <div className="card shadow-sm border-0 h-100">
                 <div className="card-img-top-wrapper">
@@ -117,7 +126,10 @@ const Products = () => {
                 <div className="card-body text-center d-flex flex-column justify-content-between">
                   <h5 className="card-title fw-bold text-truncate">{product.name}</h5>
                   <p className="text-muted fs-5">${product.price.toFixed(2)}</p>
-                  <Link to={`/products/${product.productId.categoryId}/${product.productId.productId}`} className="btn btn-primary btn-sm mt-2">
+                  <Link
+                    to={`/products/${product.productId.categoryId}/${product.productId.productId}`}
+                    className="btn btn-primary btn-sm mt-2"
+                  >
                     View Details
                   </Link>
                 </div>
@@ -131,19 +143,17 @@ const Products = () => {
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <nav className="d-flex justify-content-center mt-4">
-          <ul className="pagination">
-            {[...Array(totalPages).keys()].map(page => (
-              <li
-                key={page}
-                className={`page-item ${currentPage === page + 1 ? 'active' : ''}`}
-                onClick={() => handlePageChange(page + 1)}
-              >
-                <button className="page-link">{page + 1}</button>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="pagination mt-4 text-center">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              className={`btn ${index + 1 === currentPage ? 'btn-primary' : 'btn-outline-primary'} mx-1`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

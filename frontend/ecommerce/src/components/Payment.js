@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Payment = () => {
+const Payment = ({ setCartCount }) => {
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
@@ -60,8 +60,8 @@ const Payment = () => {
     if (!newAddress || !newAddress.state || !/^[A-Za-z\s]{2,30}$/.test(newAddress.state.trim())) {
       newErrors.state = 'State must be alphabets only (2-30 characters).';
     }
-    if (!newAddress || !newAddress.postalCode || !/^\d{5}$/.test(newAddress.postalCode.trim())) {
-      newErrors.postalCode = 'Postal Code must be exactly 5 digits.';
+    if (!newAddress || !newAddress.postalCode || !/^\d{6}$/.test(newAddress.postalCode.trim())) {
+      newErrors.postalCode = 'Postal Code must be exactly 6 digits.';
     }
     return newErrors;
   };
@@ -129,14 +129,14 @@ const Payment = () => {
   const handlePaymentSubmit = (e) => {
     e.preventDefault();
 
-    // Validate Payment Details
     const paymentErrors = validatePaymentDetails();
     let valid = Object.keys(paymentErrors).length === 0;
 
-    // Validate that either an existing address or a new address is provided
-    if (selectedAddressIndex === null && !newAddress) {
+    // Validate that either an existing address or a new address is provided.
+    // Additionally, if there are no addresses at all, that's an error.
+    if ((addresses.length === 0 && !newAddress) || (selectedAddressIndex === null && !newAddress)) {
       valid = false;
-      paymentErrors.address = 'Please select or enter a delivery address.';
+      paymentErrors.address = 'Please select or add a delivery address.';
     }
 
     if (!valid) {
@@ -145,7 +145,6 @@ const Payment = () => {
     }
 
     const sessionToken = localStorage.getItem('sessionToken');
-
     let addressId = null;
     if (selectedAddressIndex !== null) {
       const selectedAddress = addresses.find(address => address.addressId === selectedAddressIndex);
@@ -179,6 +178,9 @@ const Payment = () => {
       })
       .then(() => {
         alert('Order placed successfully!');
+        // Reset cart count to zero after order placement.
+        localStorage.setItem('cartCount', '0');
+        setCartCount(0);
         navigate('/');
         setIsProcessing(false);
       })
@@ -213,7 +215,10 @@ const Payment = () => {
             {errors.address && <div className="alert alert-danger py-1">{errors.address}</div>}
           </div>
         ) : (
-          <p>No addresses found. Please add a new address.</p>
+          <>
+            <p className="text-center text-danger">No addresses found. Please add a new address.</p>
+            {errors.address && <div className="alert alert-danger py-1">{errors.address}</div>}
+          </>
         )}
 
         {newAddress ? (
