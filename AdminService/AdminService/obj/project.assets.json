@@ -55,23 +55,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ysais\\.nuget\\packages\\": {},
+    "C:\\Users\\yadny\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ysais\\OneDrive\\Desktop\\NeoMall\\AdminService\\AdminService\\AdminService.csproj",
+      "projectUniqueName": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\AdminService.csproj",
       "projectName": "AdminService",
-      "projectPath": "C:\\Users\\ysais\\OneDrive\\Desktop\\NeoMall\\AdminService\\AdminService\\AdminService.csproj",
-      "packagesPath": "C:\\Users\\ysais\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ysais\\OneDrive\\Desktop\\NeoMall\\AdminService\\AdminService\\obj\\",
+      "projectPath": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\AdminService.csproj",
+      "packagesPath": "C:\\Users\\yadny\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yadny\\OneDrive\\Desktop\\myproject\\NeoMall\\AdminService\\AdminService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ysais\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\yadny\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

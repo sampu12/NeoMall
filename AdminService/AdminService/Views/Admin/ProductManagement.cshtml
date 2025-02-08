@@ -31,6 +31,9 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Pagination Controls -->
+    <div id="pagination"></div>
 </div>
 
 <!-- Local Bootstrap JS -->
@@ -38,32 +41,56 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    // Global variables for pagination and filtering
+    var allProducts = [];        // The complete list of products from the server
+    var filteredProducts = [];   // The filtered list (based on search)
+    var currentPage = 1;         // Current page number
+    var productsPerPage = 10;    // Number of products per page
+
     $(document).ready(function () {
         fetchProducts();
 
+        // Fetch the product list from the server
         function fetchProducts() {
             $.ajax({
                 url: "/Admin/GetProducts",
                 type: "GET",
                 success: function (data) {
-                    renderProducts(data);
+                    allProducts = data;
+                    // Initially, no filter is applied.
+                    filteredProducts = data;
+                    if (!Array.isArray(allProducts) || allProducts.length === 0) {
+                        $("#productTableBody").html("<tr><td colspan='5' class='no-products'>No products found.</td></tr>");
+                        $("#pagination").empty();
+                    } else {
+                        displayPage(1);
+                        createPagination();
+                    }
                 },
                 error: function () {
                     $("#productTableBody").html("<tr><td colspan='5' class='no-products'>Error loading products.</td></tr>");
+                    $("#pagination").empty();
                 }
             });
         }
 
-        function renderProducts(data) {
+        // Function to display products for the given page using filteredProducts
+        function displayPage(page) {
+            currentPage = page;
+            var startIndex = (page - 1) * productsPerPage;
+            var endIndex = startIndex + productsPerPage;
+            var productsToDisplay = filteredProducts.slice(startIndex, endIndex);
+
             let tableBody = $("#productTableBody");
             tableBody.empty();
 
-            if (!Array.isArray(data) || data.length === 0) {
+            if (productsToDisplay.length === 0) {
                 tableBody.append("<tr><td colspan='5' class='no-products'>No products found.</td></tr>");
                 return;
             }
 
-            data.forEach(product => {
+            productsToDisplay.forEach(product => {
+                // Adjust property access based on your actual data structure
                 let productId = product.productId?.productId ?? "N/A";
                 let categoryId = product.productId?.categoryId ?? "N/A";
                 let productName = product.name ?? "N/A";
@@ -85,8 +112,40 @@
             });
         }
 
+        // Function to create pagination controls based on filteredProducts
+        function createPagination() {
+            var totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            var paginationHTML = '<nav><ul class="pagination justify-content-center">';
 
-        // Delete Product Confirmation
+            // Previous button
+            paginationHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                                  <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+                               </li>`;
+            // Page number links
+            for (var i = 1; i <= totalPages; i++) {
+                paginationHTML += `<li class="page-item ${currentPage === i ? 'active' : ''}">
+                                      <a class="page-link" href="#" data-page="${i}">${i}</a>
+                                   </li>`;
+            }
+            // Next button
+            paginationHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                                  <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+                               </li>`;
+            paginationHTML += '</ul></nav>';
+            $("#pagination").html(paginationHTML);
+        }
+
+        // Handle clicks on pagination links
+        $(document).on("click", ".pagination a", function (e) {
+            e.preventDefault();
+            var page = parseInt($(this).data("page"));
+            var totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            if (page < 1 || page > totalPages) return;
+            displayPage(page);
+            createPagination();
+        });
+
+        // Delete Product Confirmation and action remains unchanged
         $(document).on("click", ".deleteProduct", function () {
             var categoryId = $(this).data("categoryid");
             var productId = $(this).data("productid");
@@ -97,7 +156,7 @@
                     type: "POST",
                     success: function (response) {
                         alert("✅ Product deleted successfully!");
-                        fetchProducts(); // Reload products without page refresh
+                        fetchProducts(); // Reload products and reapply filters/pagination if needed
                     },
                     error: function () {
                         alert("❌ Failed to delete product. Please try again.");
@@ -105,13 +164,25 @@
                 });
             }
         });
-    });
 
-        function searchProduct() {
-        let query = $("#searchQuery").val().toLowerCase();
-        $(".product-row").each(function () {
-            let productName = $(this).find(".product-name").text().toLowerCase();
-            $(this).toggle(productName.includes(query));
+        // Bind the search input event
+        $("#searchQuery").on("keyup", function () {
+            var query = $(this).val().toLowerCase();
+
+            // Filter allProducts based on the product name
+            if (query) {
+                filteredProducts = allProducts.filter(product => {
+                    return product.name && product.name.toLowerCase().includes(query);
+                });
+            } else {
+                // If the search box is cleared, reset the filteredProducts to allProducts
+                filteredProducts = allProducts;
+            }
+
+            // After filtering, display the first page and update pagination accordingly.
+            displayPage(1);
+            createPagination();
         });
-    }
+    });
 </script>
+

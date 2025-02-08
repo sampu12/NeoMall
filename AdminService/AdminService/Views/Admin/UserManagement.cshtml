@@ -1,5 +1,5 @@
 ﻿@model List<User>
-
+@using Newtonsoft.Json
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Admin Panel";
@@ -8,10 +8,10 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Users List</h2>
 
-    <!-- Add User & Search Bar -->
+    <!-- Search Bar -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="@Url.Action("AddUser", "Admin")" class="btn btn-success">+ Add User</a>
-        <input type="text" id="searchUser" class="form-control w-25" placeholder="Search User by User ID" style="border-color:black">
+        <input type="text" id="searchUser" class="form-control w-100"
+               placeholder="Search User by User ID" style="border-color:black">
     </div>
 
     <!-- User Table -->
@@ -25,76 +25,57 @@
             </tr>
         </thead>
         <tbody id="userTableBody">
-            @if (Model != null && Model.Any())
-            {
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>@user.user_id</td>
-                        <td>@user.name</td>
-                        <td>@user.email</td>
-                        <td>
-                            <a href="@Url.Action("EditUser", "Admin", new { id = user.user_id })" class="btn btn-primary btn-sm">Edit</a>
-                            <button class="btn btn-danger btn-sm deleteUser" data-userid="@user.user_id">Delete</button>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr id="noUsersRow">
-                    <td colspan="4" class="text-center">No users found.</td>
-                </tr>
-            }
+            <!-- Table rows will be rendered dynamically -->
         </tbody>
     </table>
+
+    <!-- Pagination Controls -->
+    <div id="pagination"></div>
 </div>
 
-<!-- jQuery for AJAX -->
+<!-- jQuery for AJAX and DOM manipulation -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    // Global variables for managing users and pagination
+    // Output the complete list of users from the Model into JavaScript
+    var allUsers = @Html.Raw(JsonConvert.SerializeObject(Model));
+    var filteredUsers = [];  // This will hold the search-filtered list
+    var currentPage = 1;     // Current page number
+    var usersPerPage = 10;   // Number of users to display per page
+
     $(document).ready(function () {
+        // Initialize filteredUsers with all users
+        filteredUsers = allUsers;
+        displayPage(1);
+        createPagination();
 
-        // Live Search Functionality
+        // Search functionality (filtering by user ID)
         $("#searchUser").on("input", function () {
-            var userId = $(this).val().trim();
-
-            if (userId === "") {
-                location.reload(); // Reload page if input is empty
-                return;
+            var searchText = $(this).val().toLowerCase().trim();
+            if (searchText === "") {
+                filteredUsers = allUsers;
+            } else {
+                filteredUsers = allUsers.filter(function (user) {
+                    // Convert user_id to string in case it's numeric
+                    return user.user_id.toString().toLowerCase().includes(searchText);
+                });
             }
-
-            $.ajax({
-                url: '@Url.Action("SearchUser", "Admin")',
-                type: "GET",
-                data: { user_id: userId },
-                success: function (data) {
-                    var tableBody = $("#userTableBody");
-                    tableBody.empty(); // Clear table data
-
-                    if (data.length > 0) {
-                        $.each(data, function (index, user) {
-                            tableBody.append(`
-                                <tr>
-                                    <td>${user.user_id}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.email}</td>
-                                    <td>
-                                        <a href="/Admin/EditUser/${user.user_id}" class="btn btn-primary btn-sm">Edit</a>
-                                        <button class="btn btn-danger btn-sm deleteUser" data-userid="${user.user_id}">Delete</button>
-                                    </td>
-                                </tr>
-                            `);
-                        });
-                    } else {
-                        tableBody.append('<tr id="noUsersRow"><td colspan="4" class="text-center">No users found.</td></tr>');
-                    }
-                }
-            });
+            displayPage(1);
+            createPagination();
         });
 
-        // Delete User Confirmation
+        // Handle clicks on pagination links
+        $(document).on("click", ".pagination a", function (e) {
+            e.preventDefault();
+            var page = parseInt($(this).data("page"));
+            var totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            if (page < 1 || page > totalPages) return;
+            displayPage(page);
+            createPagination();
+        });
+
+        // Delete User Confirmation and Action
         $(document).on("click", ".deleteUser", function () {
             var userId = $(this).data("userid");
 
@@ -104,7 +85,23 @@
                     type: "POST",
                     success: function (response) {
                         alert("✅ User deleted successfully!");
-                        location.reload(); // Reload the page after successful deletion
+
+                        // Remove the deleted user from our arrays
+                        allUsers = allUsers.filter(function (user) {
+                            return user.user_id !== userId;
+                        });
+
+                        // Reapply any active search filter
+                        var searchText = $("#searchUser").val().toLowerCase().trim();
+                        if (searchText === "") {
+                            filteredUsers = allUsers;
+                        } else {
+                            filteredUsers = allUsers.filter(function (user) {
+                                return user.user_id.toString().toLowerCase().includes(searchText);
+                            });
+                        }
+                        displayPage(1);
+                        createPagination();
                     },
                     error: function () {
                         alert("❌ Error deleting user. Please try again.");
@@ -113,4 +110,61 @@
             }
         });
     });
+
+    // Function to display the current page of users
+    function displayPage(page) {
+        currentPage = page;
+        var startIndex = (page - 1) * usersPerPage;
+        var endIndex = startIndex + usersPerPage;
+        var usersToDisplay = filteredUsers.slice(startIndex, endIndex);
+
+        var tableBody = $("#userTableBody");
+        tableBody.empty();
+
+        if (usersToDisplay.length === 0) {
+            tableBody.append('<tr id="noUsersRow"><td colspan="4" class="text-center">No users found.</td></tr>');
+            return;
+        }
+
+        $.each(usersToDisplay, function (index, user) {
+            var row = `
+                <tr>
+                    <td>${user.user_id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <a href="/Admin/EditUser/${user.user_id}" class="btn btn-primary btn-sm">Edit</a>
+                        <button class="btn btn-danger btn-sm deleteUser" data-userid="${user.user_id}">Delete</button>
+                    </td>
+                </tr>
+            `;
+            tableBody.append(row);
+        });
+    }
+
+    // Function to create/update pagination controls
+    function createPagination() {
+        var totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+        var paginationHTML = '<nav><ul class="pagination justify-content-center">';
+
+        // Previous button
+        paginationHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                               <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+                           </li>`;
+
+        // Page number links
+        for (var i = 1; i <= totalPages; i++) {
+            paginationHTML += `<li class="page-item ${currentPage === i ? 'active' : ''}">
+                                   <a class="page-link" href="#" data-page="${i}">${i}</a>
+                               </li>`;
+        }
+
+        // Next button
+        paginationHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                               <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+                           </li>`;
+
+        paginationHTML += '</ul></nav>';
+        $("#pagination").html(paginationHTML);
+    }
 </script>
